@@ -11,30 +11,16 @@ services:
       - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
 
   #Configuration de candidat container
-  candidatService:
+  commandeService:
     build:
-      context: ./Candidat
+      context: ./Commande
     ports:
-      - "8099:8099"
-    image: "candidat_image"
+      - "8066:8066"
+    image: "commande_image"
     environment:
         - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
     depends_on:
       - eurekaServer
-
-  #Configuration de job container
-  jobService:
-    build:
-      context: ./Job
-    ports:
-      - "8081:8081"
-    image: "job_image"
-    environment:
-      - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
-    depends_on:
-      - eurekaServer
-      - docker-mysql_1
-
   #configuration de mysql container
   docker-mysql_1:
     image: "mysql:5.6"
@@ -44,8 +30,6 @@ services:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     ports:
       - 3306:3306
-
-
   #Configuration de Gateway container
   gatewayService:
     build:
@@ -57,5 +41,4 @@ services:
       - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
     depends_on:
       - eurekaServer
-      - jobService
-      - candidatService
+      - commandeService
