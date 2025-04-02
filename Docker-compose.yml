@@ -9,8 +9,7 @@ services:
     image: "eureka_image"
     environment:
       - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
-
-  #Configuration de candidat container
+    #Configuration de candidat container
   commandeService:
     build:
       context: ./Commande
@@ -18,9 +17,13 @@ services:
       - "8066:8066"
     image: "commande_image"
     environment:
-        - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
+      - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
+      - spring.data.mongodb.host=mongodb
+      - spring.data.mongodb.port=27017
+      - spring.data.mongodb.database=commande
     depends_on:
       - eurekaServer
+      - mongodb
   #configuration de mysql container
   docker-mysql_1:
     image: "mysql:5.6"
@@ -42,3 +45,12 @@ services:
     depends_on:
       - eurekaServer
       - commandeService
+  mongodb:
+    image: "mongo"
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+  volumes:
+  mongodb_data:
