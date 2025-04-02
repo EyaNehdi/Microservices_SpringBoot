@@ -1,0 +1,61 @@
+version: "24.0.2"
+services:
+  #Configuration de eureka container
+  eurekaServer:
+    build:
+      context: ./EurekaServer
+    ports:
+      - "8030:8761"
+    image: "eureka_image"
+    environment:
+      - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
+
+  #Configuration de candidat container
+  candidatService:
+    build:
+      context: ./Candidat
+    ports:
+      - "8099:8099"
+    image: "candidat_image"
+    environment:
+        - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
+    depends_on:
+      - eurekaServer
+
+  #Configuration de job container
+  jobService:
+    build:
+      context: ./Job
+    ports:
+      - "8081:8081"
+    image: "job_image"
+    environment:
+      - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
+    depends_on:
+      - eurekaServer
+      - docker-mysql_1
+
+  #configuration de mysql container
+  docker-mysql_1:
+    image: "mysql:5.6"
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=jobs
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - 3306:3306
+
+
+  #Configuration de Gateway container
+  gatewayService:
+    build:
+      context: ./Gateway
+    ports:
+      - "7000:7000"
+    image: "gateway_image"
+    environment:
+      - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
+    depends_on:
+      - eurekaServer
+      - jobService
+      - candidatService
