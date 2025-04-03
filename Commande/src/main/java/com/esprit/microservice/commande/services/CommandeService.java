@@ -21,10 +21,10 @@ public class CommandeService implements ICommandeService{
         return commandeRepository.save(commande);
     }
 
-    public void deleteCommande(int id) {
+    public void deleteCommande(String id) {
         commandeRepository.deleteById(id);
     }
-    public Commande retrieveCommande(int id) {
+    public Commande retrieveCommande(String id) {
         return commandeRepository.findById(id).orElse(null);
     }
 

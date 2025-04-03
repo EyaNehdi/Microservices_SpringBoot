@@ -1,4 +1,3 @@
-version: "24.0.2"
 services:
   #Configuration de eureka container
   eurekaServer:
@@ -15,7 +14,7 @@ services:
       context: ./Commande
     ports:
       - "8066:8066"
-    image: "commande_image"
+    image: "commande-service"
     environment:
       - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
       - spring.data.mongodb.host=mongodb
@@ -28,11 +27,14 @@ services:
   docker-mysql_1:
     image: "mysql:5.6"
     environment:
-      - MYSQL_ROOT_PASSWORD=
-      - MYSQL_DATABASE=jobs
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    - MYSQL_ROOT_PASSWORD=keycloakpassword
+    - MYSQL_DATABASE=keycloak
+    - MYSQL_USER=keycloak
+    - MYSQL_PASSWORD=keycloakpassword
     ports:
-      - 3306:3306
+    - "3306:3306"
+    volumes:
+    - mysql_data:/var/lib/mysql
   #Configuration de Gateway container
   gatewayService:
     build:
@@ -45,6 +47,21 @@ services:
     depends_on:
       - eurekaServer
       - commandeService
+  keycloak:
+   image: quay.io/keycloak/keycloak:23.0
+   container_name: keycloak
+   ports:
+    - "8080:8080"
+   environment:
+    KEYCLOAK_ADMIN: admin
+    KEYCLOAK_ADMIN_PASSWORD: admin
+    KC_DB: mysql
+    KC_DB_URL: jdbc:mysql://docker-mysql_1:3306/keycloak
+    KC_DB_USERNAME: keycloak
+    KC_DB_PASSWORD: keycloakpassword
+   command: ["start-dev"]  # Remove --import-realm
+   depends_on:
+    - docker-mysql_1
   mongodb:
     image: "mongo"
     container_name: mongodb
@@ -52,5 +69,6 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
-  volumes:
+volumes:
   mongodb_data:
+  mysql_data:

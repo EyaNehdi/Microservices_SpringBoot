@@ -28,12 +28,12 @@ public class CommandeRestAPI {
     }
     //delete Commande
     @DeleteMapping("/delete/{id}")
-    public void supprimerCommande (@PathVariable int id){
+    public void supprimerCommande (@PathVariable String id){
         commandeService.deleteCommande(id);
     }
     //retrieve Commande
     @GetMapping("/get/{id}")
-    public Commande recupererCommande (@PathVariable int id){
+    public Commande recupererCommande (@PathVariable String id){
         return commandeService.retrieveCommande(id);
     }
     //retrieve all Commandes

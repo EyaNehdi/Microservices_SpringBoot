@@ -30,8 +30,8 @@ public class KeycloakSecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Explicitly disabling CSRF
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/*").hasAuthority("user")
-                        .requestMatchers("/candidats/user/*").hasAuthority("user")
-                        .requestMatchers("/candidats/admin/**").hasAuthority("admin")
+                        .requestMatchers("/commande/user/*").hasAuthority("user")
+                        .requestMatchers("/commande/admin/**").hasAuthority("admin")
                         .anyRequest().authenticated()
                 );
         return http.build();
