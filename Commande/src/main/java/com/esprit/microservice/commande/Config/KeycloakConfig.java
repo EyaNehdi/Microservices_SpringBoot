@@ -20,13 +20,13 @@ public class KeycloakConfig {
         return new KeycloakSpringBootConfigResolver();
     }
         static Keycloak keycloak=null;
-        final static String serverUrl = "http://localhost:8080/auth";
+        final static String serverUrl = "http://172.25.240.1:8080";
         public final static String realm = "JobBoardKeycloack";
-        public final static String clientId = "candidat-service";
+        public final static String clientId = "commande";
         final static String clientSecret =
-                "AIzjKpj05KMQHUkrSC2dX0VwSlnh4O4E";
-        final static String userName = "jihed";
-        final static String password = "jihed";
+                "65KW8qXwmZ3GyaUt1XglktuLOqlTAKlx";
+        final static String userName = "Eya";
+        final static String password = "touta";
 public KeycloakConfig() {
         }
         @Bean
