@@ -11,6 +11,7 @@ import tn.esprit.microservice.projet_microservice.entities.enums.Type;
 import java.util.List;
 
 @RequiredArgsConstructor
+
 @RequestMapping("reclamation")
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
