@@ -19,7 +19,7 @@ public class GatewayApplication {
 
 		return builder.routes()
 				.route("commande", r->r.path("/commande/**")
-						.uri("lb://Commande"))
+						.uri("lb://commande"))
 				.build();
 	}
 
