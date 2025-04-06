@@ -24,8 +24,9 @@ public class CommandeRestAPI {
     }
 
     //update Commande
-    @PutMapping("/update")
-    public Commande modifierCommande (@RequestBody Commande commande){
+    @PutMapping("/update/{id}")
+    public Commande modifierCommande (@PathVariable String id ,@RequestBody Commande commande){
+        commande.set_id(id);
         return commandeService.updateCommande(commande);
     }
     //delete Commande
