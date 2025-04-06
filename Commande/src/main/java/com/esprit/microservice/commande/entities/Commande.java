@@ -1,24 +1,21 @@
 package com.esprit.microservice.commande.entities;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 
-@Document
-@FieldDefaults(level= AccessLevel.PRIVATE)
+@Document(collection = "commande")  // Specify the collection name (optional, defaults to the class name)
+@FieldDefaults(level = AccessLevel.PRIVATE)  // To handle field visibility
+@Data  // Lombok annotation for getters, setters, toString, etc.
 public class Commande implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int idCommande;
-    String nomCommande;
-    String deliveryAddress;
-    double totalPrice;
+@Id
+    private String _id;
+    private String nomCommande;
+    private String deliveryAddress;
+    private double totalPrice;
 
 }

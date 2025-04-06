@@ -27,13 +27,19 @@ public class KeycloakSecurityConfig {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+      /*  http
                 .csrf(AbstractHttpConfigurer::disable) // Explicitly disabling CSRF
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/*").hasAuthority("user")
                         .requestMatchers("/commande/user/*").hasAuthority("user")
                         .requestMatchers("/commande/admin/**").hasAuthority("admin")
                         .anyRequest().authenticated()
+                );
+        return http.build();*/
+        http
+                .csrf(csrf -> csrf.disable()) // Disable CSRF for testing
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll() // ⚠️ Allow all requests
                 );
         return http.build();
     }
