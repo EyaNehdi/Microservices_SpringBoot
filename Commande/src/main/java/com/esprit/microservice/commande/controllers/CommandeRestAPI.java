@@ -8,7 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173") // Allow requests from this origin
 @Tag(name = "\uD83D\uDCDA Commande Management")
 @RestController
 @RequestMapping("/commande")

@@ -1,5 +1,5 @@
 import './App.css'
-import NavigationBar from './components/navigationBar'
+import NavigationBar from './components/NavigationBar';
 import { Routes, Route } from 'react-router-dom';
 import CommandeForm from './components/CommandeForm';
 import Commandes from './components/Commandes';

@@ -50,31 +50,32 @@ useEffect(() => {
 }, [commandeId, setValue]);
 
 
-const onSubmit = async (data) =>{
+const onSubmit = async (data) => {
     console.log("Form data:", data);
-    const {nomCommande,deliveryAddress,totalPrice} = data;
-    let commandeResult = null;
-    console.log(data)
-    try{
-    if (commandeId) {
-        commandeResult = await updateCommande(commandeId,{
-            nomCommande:data.nomCommande,
-            deliveryAddress:data.deliveryAddress,
-            totalPrice:data.totalPrice,
-        });
-
-    } else {
-      commandeResult =  await addCommande({nomCommande,deliveryAddress,totalPrice});
-        console.log(commandeResult);
+    const {nomCommande, deliveryAddress, totalPrice} = data;
+    try {
+        let commandeResult = null;
+        
+        if (commandeId) {
+            commandeResult = await updateCommande(commandeId, {
+                nomCommande: data.nomCommande,
+                deliveryAddress: data.deliveryAddress,
+                totalPrice: data.totalPrice,
+            });
+        } else {
+            commandeResult = await addCommande({nomCommande, deliveryAddress, totalPrice});
+        }
+        
+        console.log("API Response:", commandeResult);
+        
+        if (commandeResult && (commandeResult.status === 200 || commandeResult.status === 201)) {
+            navigate("/");
+        }
+    } catch (error) {
+        console.error("Error submitting form:", error);
+        alert("An error occurred while submitting the form. Please try again.");
     }
-    }
-    catch(error){
-    console.error(error);
-    }
-    console.log(commandeResult.status);
-    if (commandeResult.status === 200 || commandeResult.status === 201) {
-        navigate("/");
-    };}
+};
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
