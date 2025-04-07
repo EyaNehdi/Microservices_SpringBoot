@@ -1,7 +1,9 @@
 package tn.esprit.examen.jihed.horchaniGestionProduit.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.examen.jihed.horchaniGestionProduit.API.EmailService;
 import tn.esprit.examen.jihed.horchaniGestionProduit.entities.Produit;
 import tn.esprit.examen.jihed.horchaniGestionProduit.services.IProduitServices;
 
@@ -37,5 +39,16 @@ public class ProduitRestController {
     @GetMapping("/all")
     public List<Produit> getAll() {
         return services.getAllProduits();
+    }
+
+    @Autowired
+    private EmailService emailService;
+
+    @PostMapping("/send")
+    public String sendMail(@RequestParam String to,
+                           @RequestParam String subject,
+                           @RequestParam String body) {
+        emailService.sendSimpleMessage(to, subject, body);
+        return "Email sent successfully";
     }
 }
