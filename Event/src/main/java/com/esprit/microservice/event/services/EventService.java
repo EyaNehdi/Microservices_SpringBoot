@@ -16,7 +16,7 @@ public class EventService implements IEventService {
 
     private final IEventRepository eventRepository;
 
-    // Ajouter un événement
+    // Ajouter un évént
     public Event addEvent(Event event) {
         return eventRepository.save(event);
     }
@@ -45,7 +45,7 @@ public class EventService implements IEventService {
 
     // Méthode de notification 3 jours avant
     public void sendReminderNotifications() {
-        // Calcul de la date cible
+        // Calcul
         LocalDate targetDate = LocalDate.now().plusDays(3);
         System.out.println("🔔 Recherche des événements pour la date cible : " + targetDate); //
 
@@ -64,7 +64,7 @@ public class EventService implements IEventService {
 
 
     }
-
+//recherche 
     @Override
     public List<Event> searchEventsByNameAndLocation(String nomEvent, String lieu) {
         return eventRepository.findByNomEventIgnoreCaseAndLieuIgnoreCase(nomEvent, lieu);
