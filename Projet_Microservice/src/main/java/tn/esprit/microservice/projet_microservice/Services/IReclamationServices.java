@@ -13,5 +13,9 @@ public interface IReclamationServices {
     Reclamation retrievereclamation(Long id);
     List<Reclamation> retrieveAll();
     void removeReclamation(Long id);
-    boolean chercherreclamation(String titre);
+    public List<Reclamation> getReclamationsByType(Type type);
+    public List<Reclamation> getReclamationsTrieesParDateAsc();
+    public List<Reclamation> getReclamationsTrieesParDateDesc();
+
+
 }

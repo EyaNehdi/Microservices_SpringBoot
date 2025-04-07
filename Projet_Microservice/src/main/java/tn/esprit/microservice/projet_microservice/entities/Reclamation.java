@@ -22,7 +22,8 @@ public class Reclamation implements Serializable {
     private String description;
     private LocalDate date;
     @Enumerated(EnumType.STRING)
-    private Type type_reclamation;
+    @Column(name = "typeReclamation")
+    private Type typeReclamation;
 
 
 

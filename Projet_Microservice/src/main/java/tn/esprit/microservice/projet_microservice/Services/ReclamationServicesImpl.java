@@ -53,11 +53,16 @@ public class ReclamationServicesImpl implements IReclamationServices {
     }
 
     @Override
-    public boolean chercherreclamation(String titre) {
-        Reclamation reclamation = reclamationRepository.findByTitre(titre);
-        if(reclamation==null)
-            return false;
-        return reclamation.getType_reclamation() == Type.GRAVE;
+    public List<Reclamation> getReclamationsByType(Type type) {
+        return reclamationRepository.findByTypeReclamation(type);
     }
 
+    @Override
+    public List<Reclamation> getReclamationsTrieesParDateAsc() {
+        return reclamationRepository.findAllByOrderByDateAsc();
+    }
+
+    @Override
+    public List<Reclamation> getReclamationsTrieesParDateDesc() {
+        return reclamationRepository.findAllByOrderByDateDesc();    }
 }

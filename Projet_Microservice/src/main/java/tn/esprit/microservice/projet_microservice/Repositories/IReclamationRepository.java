@@ -8,5 +8,7 @@ import tn.esprit.microservice.projet_microservice.entities.enums.Type;
 import java.util.List;
 
 public interface IReclamationRepository extends CrudRepository<Reclamation, Long> {
-    Reclamation findByTitre(String titre);
+    List<Reclamation> findByTypeReclamation(Type typeReclamation);
+    List<Reclamation> findAllByOrderByDateAsc();
+    List<Reclamation> findAllByOrderByDateDesc();
 }

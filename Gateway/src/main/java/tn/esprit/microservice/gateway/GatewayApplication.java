@@ -8,7 +8,6 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@EnableDiscoveryClient
 
 public class GatewayApplication {
 
@@ -16,13 +15,10 @@ public class GatewayApplication {
         SpringApplication.run(GatewayApplication.class, args);
     }
     @Bean
-    public RouteLocator gatewayRoutes(RouteLocatorBuilder builder){
-
+    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("Projet_Microservice", r->r.path("/Projet_microservice/**")
-                        .uri("http://localhost:8099"))
-
-
+                .route("Projet_Microservice", r -> r.path("/reclamation/**")
+                        .uri("http://reclamation:8087"))
                 .build();
     }
 

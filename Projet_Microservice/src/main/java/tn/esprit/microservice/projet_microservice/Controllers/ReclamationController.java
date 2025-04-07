@@ -43,10 +43,20 @@ public class ReclamationController {
         b.removeReclamation(id);
     }
 
-    @GetMapping("/chercherProduit/{titre}")
-    public boolean chercherreclamation(@PathVariable String titre) {
 
-        return b.chercherreclamation(titre);
+    @GetMapping("/type/{type}")
+    public List<Reclamation> getReclamationsByType(@PathVariable("type") Type type) {
+        return b.getReclamationsByType(type);
+    }
+
+    @GetMapping("/sorted/asc")
+    public List<Reclamation> getReclamationsAsc() {
+        return b.getReclamationsTrieesParDateAsc();
+    }
+
+    @GetMapping("/sorted/desc")
+    public List<Reclamation> getReclamationsDesc() {
+        return b.getReclamationsTrieesParDateDesc();
     }
 
 
