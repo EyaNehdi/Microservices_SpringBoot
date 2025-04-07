@@ -1,0 +1,66 @@
+package tn.esprit.examen.jihed.horchaniGestionProduit.controllers;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebFilter
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private final String SECRET_KEY = "your_secret_key";  // Use a secure key here
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        // Extract the JWT token from the Authorization header
+        String token = request.getHeader("Authorization");
+
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);  // Remove "Bearer " prefix
+
+            // Validate the token
+            if (validateToken(token)) {
+                // Set the authentication context
+                Claims claims = getClaims(token);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        claims.getSubject(), null, null // You can add roles or authorities here if needed
+                );
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+        }
+
+        // Continue the filter chain
+        filterChain.doFilter(request, response);
+    }
+
+    private boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;  // Token is invalid
+        }
+    }
+
+    private Claims getClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(SECRET_KEY)
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+}
+
