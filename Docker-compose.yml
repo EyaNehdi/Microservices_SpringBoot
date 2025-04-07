@@ -1,0 +1,49 @@
+version: "24.0.2"
+services:
+  #Configuration de eureka container
+  eurekaserver: 
+    build:
+      context: ./EurekaServer
+    ports:
+      - "8761:8761"
+    image: "eureka_image"
+    environment:
+      - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
+
+
+  #Configuration de Projetmicro container
+  event:
+    build:
+      context: ./Event
+    ports:
+      - "8088:8088"
+    image: "projet_microservice_image"
+    environment:
+      - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
+    depends_on:
+      - eurekaserver
+      - docker-mysql_1
+
+  #configuration de mysql container
+  docker-mysql_1:
+    image: "mysql:5.6"
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=jobs
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - 3306:3306
+
+
+  #Configuration de Gateway container
+  gateway.jar:
+    build:
+      context: ./Gateway
+    ports:
+      - "8092:8092"
+    image: "gateway_image"
+    environment:
+      - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
+    depends_on:
+      - eurekaserver
+      - event
