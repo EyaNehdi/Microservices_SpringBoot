@@ -49,7 +49,7 @@ This architecture ensures a secure, scalable, and maintainable microservices-bas
 - /reclamation/{id}/pdf (GET) | Export  reclamation to PDF
 - /reclamation/sorted/desc (GET) | sort reclamation by date in Asc order
 -  /reclamation/sorted/asc (GET) | sort reclamation by date in Desc order
--  reclamation/type/GRAVE (GET) | Search for complaints by their complaint_type
+-  reclamation/type/GRAVE (GET) | Search for Reclamation by their reclamation_type
 
 
 
