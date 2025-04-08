@@ -42,9 +42,9 @@ This architecture ensures a secure, scalable, and maintainable microservices-bas
 
 ### Endpoints available : 
 - /reclamation/ajout (POST) | Add a new Reclamation
-- /reclamation/get (GET) | Get all Reclamtion
+- /reclamation/get (GET) | Get all Reclamation
 - /reclamation/update/{id} (PUT) | Update a reclamation by id
-- /reclamation/supp/{id} (DELETE) | Delete a commande by id
+- /reclamation/supp/{id} (DELETE) | Delete a reclamation by id
 - /reclamation/get/{id} (GET) | Get a reclamation by id
 - /reclamation/{id}/pdf (GET) | Export  reclamation to PDF
 - /reclamation/sorted/desc (GET) | sort reclamation by date in Asc order
