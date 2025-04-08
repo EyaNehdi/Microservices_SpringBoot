@@ -40,3 +40,11 @@ Key Dependencies: keycloak-spring-boot-starter, spring-security-oauth2
 
 This architecture ensures a secure, scalable, and maintainable microservices-based system! 🚀
 
+### Endpoints available : 
+- /commande/add (POST) | Add a new commande
+- /commande/all (GET) | Get all commandes
+- /commande/update/{id} (PUT) | Update a commande by id
+- /commande/delete/{id} (DELETE) | Delete a commande by id
+- /commande/get/{id} (GET) | Get a commande by id
+- /commande/export (GET) | Export all commandes to PDF
+- /commande/excel (GET) | Export all commandes to Excel

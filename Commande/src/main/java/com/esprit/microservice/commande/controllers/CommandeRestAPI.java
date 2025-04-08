@@ -6,13 +6,15 @@ import com.itextpdf.io.source.ByteArrayOutputStream;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.io.IOException;
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:5173") // Allow requests from this origin
 @Tag(name = "\uD83D\uDCDA Commande Management")
 @RestController
 @RequestMapping("/commande")
@@ -70,5 +72,9 @@ public class CommandeRestAPI {
     @GetMapping("/sort/desc")
     public List<Commande> getCommandesSortedDesc(@RequestParam String field) {
         return commandeService.getCommandesSortedDesc(field);
+    }
+    @GetMapping("/excel")
+    public ResponseEntity<byte[]> exportCommandesToExcel() throws IOException{
+        return commandeService.exportCommandesToExcel();
     }
 }

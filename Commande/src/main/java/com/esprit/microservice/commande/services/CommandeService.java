@@ -10,7 +10,14 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.kernel.geom.PageSize;
 import java.io.IOException;
 import lombok.AllArgsConstructor;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
@@ -85,5 +92,43 @@ public class CommandeService implements ICommandeService{
     // Method to fetch sorted commandes in descending order
     public List<Commande> getCommandesSortedDesc(String field) {
         return commandeRepository.findAll(Sort.by(Sort.Order.desc(field)));
+    }
+    //export excel
+    public ResponseEntity<byte[]> exportCommandesToExcel() throws IOException {
+        // Fetch all commandes from the repository
+        List<Commande> commandes = commandeRepository.findAll();
+
+        // Create a workbook
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Commandes");
+
+        // Create the header row
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("ID");
+        headerRow.createCell(1).setCellValue("Nom");
+        headerRow.createCell(2).setCellValue("Address");
+        headerRow.createCell(3).setCellValue("Total Price");
+
+        // Fill the sheet with data
+        int rowNum = 1;
+        for (Commande commande : commandes) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(commande.get_id());
+            row.createCell(1).setCellValue(commande.getNomCommande());
+            row.createCell(2).setCellValue(commande.getDeliveryAddress());
+            row.createCell(3).setCellValue(commande.getTotalPrice());
+        }
+
+        // Write the output to a ByteArrayOutputStream
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        workbook.write(baos);
+        workbook.close();
+
+        // Prepare the response
+        byte[] excelFile = baos.toByteArray();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=commandes_list.xlsx");
+
+        return new ResponseEntity<>(excelFile, headers, HttpStatus.OK);
     }
 }

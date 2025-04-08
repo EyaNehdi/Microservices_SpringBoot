@@ -55,7 +55,27 @@ const handleSortDesc = () => {
           console.error("Error during PDF export:", error);
       }
   };
-
+// Export Excel functionality
+const handleExportExcel = async () => {
+  try {
+    console.log("Attempting to export Excel");
+    const response = await axios.get("http://localhost:8066/commande/excel", {
+      responseType: "blob"
+    });
+    console.log("Excel export successful", response);
+    
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(response.data);
+    link.download = "commandes_list.xlsx";
+    link.click();
+  } catch (error) {
+    console.error("Error during Excel export:", error);
+    if (error.response) {
+      console.error("Response status:", error.response.status);
+      console.error("Response headers:", error.response.headers);
+    }
+  }
+};
   return (
     <div>
        <h1>List des commandes</h1>
@@ -63,6 +83,11 @@ const handleSortDesc = () => {
        <button onClick={handleExportPDF} className="btn btn-primary mb-4">
                 Exporter les commandes en PDF
             </button>
+            {/* Button to export Excel */}
+            <button onClick={handleExportExcel} className="btn btn-success mb-4">
+                Exporter les commandes en Excel
+            </button>
+
             <div>
                 <button onClick={handleSortAsc}>Sort Ascending</button>
                 <button onClick={handleSortDesc}>Sort Descending</button>
