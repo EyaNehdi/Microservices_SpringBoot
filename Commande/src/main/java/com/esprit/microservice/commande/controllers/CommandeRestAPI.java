@@ -2,9 +2,13 @@ package com.esprit.microservice.commande.controllers;
 
 import com.esprit.microservice.commande.entities.Commande;
 import com.esprit.microservice.commande.services.CommandeService;
+import com.itextpdf.io.source.ByteArrayOutputStream;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,5 +48,27 @@ public class CommandeRestAPI {
     @GetMapping("/all")
     public List<Commande> recupererTousCommandes (){
         return commandeService.retrieveAllCommandes();
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity<byte[]> exportCommandesToPDF() throws java.io.IOException {
+        ByteArrayOutputStream pdfData = commandeService.exportCommandesToPDF();
+        // Set headers for PDF download
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=commandes_list.pdf");
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/pdf");
+
+        return new ResponseEntity<>(pdfData.toByteArray(), headers, HttpStatus.OK);
+    }
+    //Endpoint for ascending sort
+    @GetMapping("/sort/asc")
+    public List<Commande> getCommandesSortedAsc(@RequestParam String field) {
+        return commandeService.getCommandesSortedAsc(field);
+    }
+
+    // Endpoint for descending sort
+    @GetMapping("/sort/desc")
+    public List<Commande> getCommandesSortedDesc(@RequestParam String field) {
+        return commandeService.getCommandesSortedDesc(field);
     }
 }

@@ -4,6 +4,7 @@ import { addCommande, editCommande, deleteCommande, getAllCommandes, getCommande
 export const useCommandeStore = create((set) => ({
   commandes: [],
   commande: null,  // For storing a specific commande
+  setCommandes: (commandes) => set({ commandes }),
   errors: "",
   
   // Fetch all commandes
