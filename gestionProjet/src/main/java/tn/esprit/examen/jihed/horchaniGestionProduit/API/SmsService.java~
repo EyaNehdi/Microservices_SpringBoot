@@ -1,0 +1,27 @@
+package tn.esprit.examen.jihed.horchaniGestionProduit.API;
+
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class SmsService {
+
+    @Autowired
+    private TwilioConfig config;
+
+    public String sendSms(String to, String text) {
+        try {
+            Message message = Message.creator(
+                    new PhoneNumber(to),
+                    new PhoneNumber(config.getFromNumber()),
+                    text
+            ).create();
+            return "SMS sent with SID: " + message.getSid();
+        } catch (Exception e) {
+            return "Failed to send SMS: " + e.getMessage();
+        }
+    }
+}
+

@@ -18,12 +18,15 @@ spring.jpa.hibernate.ddl-auto=create
 eureka.client.service-url.defaultZone=http://eurekaServer:8030/eureka/
 eureka.client.register-with-eureka=true
 
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=jihedhorchani@gmail.com
+spring.mail.password=jfes uekb sgba iegh
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+twilio.account.sid=AC9e5369e8195cc957929008da34ecd7f2
+twilio.auth.token=b8a360f889c72291621a769b5ce86ab9
+twilio.phone.number=+19035467653
 
 
-# Security Configuration
-spring.security.oauth2.client.registration.keycloak.client-id=gestionproduit-client
-spring.security.oauth2.client.registration.keycloak.client-secret=aS6eb6a7SzIrQJGadU4D2RIKUH24MIhB
-spring.security.oauth2.client.provider.keycloak.token-uri=http://localhost:8080/realms/myrealm/protocol/openid-connect/token
-spring.security.oauth2.client.provider.keycloak.authorization-uri=http://localhost:8080/realms/myrealm/protocol/openid-connect/auth
-spring.security.oauth2.client.provider.keycloak.user-info-uri=http://localhost:8080/realms/myrealm/protocol/openid-connect/userinfo
-spring.security.oauth2.client.registration.keycloak.scope=openid, profile, email

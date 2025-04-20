@@ -8,4 +8,5 @@ eureka.client.register-with-eureka=true
 # Gateway Routing
 
 
-
+# OAuth2 Keycloak JWT Decoder URLs (replace localhost with container name)
+spring.security.oauth2.resourceserver.jwt.issuer-uri=http://localhost:8080/realms/myrealm
