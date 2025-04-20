@@ -19,6 +19,12 @@ public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
     return builder.routes()
             .route("gestionproduit", r -> r.path("/produits/**")
                     .uri("http://Gestionproduit:8089"))
+            .route("Projet_Microservice", r -> r.path("/reclamation/**")
+                    .uri("http://reclamation:8087"))
+            .route("EVENT", r -> r.path("/event/**")
+                    .uri("http://event:8088"))
+            .route("COMMANDE", r -> r.path("/commande/**")
+                    .uri("http://commandeService:8066"))
             .build();
 }
 

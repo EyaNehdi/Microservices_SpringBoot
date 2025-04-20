@@ -1,18 +1,13 @@
-version: "3.9"  # Compatible version
+version: "3.9"
 
 services:
-  # Eureka Server
   eurekaServer:
-    build:
-      context: ./eureka
+    image: jyhedhr/eureka_image:latest
     ports:
       - "8030:8761"
-    image: "eureka_image"
 
-  # MySQL Database
-  #configuration de mysql container
   docker-mysql_1:
-    image: "mysql:5.6"
+    image: mysql:5.6
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: keycloak
@@ -21,50 +16,85 @@ services:
     ports:
       - 3306:3306
 
-  # Gestion Projet Service
+  reclamation:
+    image: jyhedhr/projet_microservice_image:latest
+    ports:
+      - "8087:8087"
+    environment:
+      - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
+    depends_on:
+      - eurekaServer
+      - docker-mysql_1
+
+  event:
+    image: jyhedhr/event:latest
+    ports:
+      - "8088:8088"
+    environment:
+      - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
+    depends_on:
+      - eurekaServer
+      - docker-mysql_1
+
   Gestionproduit:
-    build:
-      context: ./gestionProjet
+    image: jyhedhr/gestion_projet_image:latest
     ports:
       - "8089:8089"
-    image: "gestion_projet_image"
     environment:
       - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
     depends_on:
       - eurekaServer
 
-  # API Gateway Service
+  commandeService:
+    image: jyhedhr/commande-service:latest
+    ports:
+      - "8066:8066"
+    environment:
+      - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
+      - spring.data.mongodb.host=mongodb
+      - spring.data.mongodb.port=27017
+      - spring.data.mongodb.database=commande
+    depends_on:
+      - eurekaServer
+      - mongodb
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
   gatewayService:
-    build:
-      context: ./Gateway
+    image: jyhedhr/gateway_image:latest
     ports:
       - "7000:7000"
-    image: "gateway_image"
     environment:
       - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
     depends_on:
       - eurekaServer
       - Gestionproduit
       - keycloak
+      - event
 
-  # Keycloak Authentication Service
   keycloak:
-   image: quay.io/keycloak/keycloak:23.0
-   container_name: keycloak
-   ports:
-    - "8080:8080"
-   environment:
-    KEYCLOAK_ADMIN: admin
-    KEYCLOAK_ADMIN_PASSWORD: admin
-    KC_DB: mysql
-    KC_DB_URL: jdbc:mysql://docker-mysql_1:3306/keycloak
-    KC_DB_USERNAME: keycloak
-    KC_DB_PASSWORD: keycloakpassword
-   command: ["start-dev"]  # Remove --import-realm
-   depends_on:
-    - docker-mysql_1
-    
+    image: quay.io/keycloak/keycloak:23.0
+    container_name: keycloak
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: mysql
+      KC_DB_URL: jdbc:mysql://docker-mysql_1:3306/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloakpassword
+    command: ["start-dev"]
+    depends_on:
+      - docker-mysql_1
 
 volumes:
   mysql_data:
   keycloak_data:
+  mongodb_data:

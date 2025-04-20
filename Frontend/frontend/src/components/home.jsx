@@ -15,6 +15,10 @@ function Home() {
             <ShoppingBag className="link-icon" />
             Manage Products
           </Link>
+          <Link to="/reclamation" className="home-link primary-link">
+            <ShoppingBag className="link-icon" />
+            Reclamation
+          </Link>
         </div>
       </div>
 
