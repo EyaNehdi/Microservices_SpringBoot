@@ -1259,3 +1259,33 @@ body {
     padding: 0.5rem 0.75rem;
   }
 }
+/* Style pour les boutons de recherche, réinitialisation et export PDF */
+.search-btn, .reset-btn, .pdf-btn {
+  background-color: #003366; /* Couleur de fond bleu foncé */
+  color: white; /* Texte en blanc */
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+/* Effet au survol des boutons */
+.search-btn:hover, .reset-btn:hover, .pdf-btn:hover {
+  background-color: #002244; /* Légère variation de bleu foncé au survol */
+}
+
+/* Style spécifique pour le bouton de recherche */
+.search-btn {
+  background-color: #003366;
+}
+
+.reset-btn {
+  background-color: #003366;
+}
+
+.pdf-btn {
+  background-color: #003366;
+}
+
