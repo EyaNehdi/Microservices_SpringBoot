@@ -8,10 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Tag(name = "\uD83D\uDCC5 Event Management")
 @RestController
 @RequestMapping("/event")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequiredArgsConstructor
 public class EventRestAPI {
 
@@ -24,10 +26,11 @@ public class EventRestAPI {
     }
 
 
-    @PutMapping("/update")
-    public Event modifierEvent(@RequestBody Event event) {
-        return eventService.updateEvent(event);
+    @PutMapping("/update/{id}")
+    public Event modifierEvent(@PathVariable String id, @RequestBody Event event) {
+        return eventService.updateEvent(id, event);
     }
+
 
     // Supprimer un event
     @DeleteMapping("/delete/{id}")
@@ -59,6 +62,10 @@ public class EventRestAPI {
       return eventService.searchEventsByNameAndLocation(nomEvent, lieu);
   }
 
-
+    // Ajouter un endpoint pour récupérer les statistiques par lieu
+    @GetMapping("/stats-by-location")
+    public Map<String, Long> getEventStatsByLocation() {
+        return eventService.getEventStatsByLocation();
+    }
 
 }
