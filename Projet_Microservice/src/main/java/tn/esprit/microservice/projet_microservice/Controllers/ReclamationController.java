@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 
 @RequestMapping("reclamation")
-@CrossOrigin(origins = "http://localhost:5173")
+//@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 public class ReclamationController {
     private final ReclamationServicesImpl b;

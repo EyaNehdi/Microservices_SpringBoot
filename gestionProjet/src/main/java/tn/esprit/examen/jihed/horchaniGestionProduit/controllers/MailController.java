@@ -7,7 +7,7 @@ import tn.esprit.examen.jihed.horchaniGestionProduit.API.EmailService;
 
 @RestController
 @RequestMapping("/api/mail")
-@CrossOrigin(origins = "http://localhost:5173")
+//@CrossOrigin(origins = "http://localhost:5173")
 @RequiredArgsConstructor
 public class MailController {
 
