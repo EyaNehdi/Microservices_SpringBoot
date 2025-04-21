@@ -69,7 +69,7 @@ const onSubmit = async (data) => {
         console.log("API Response:", commandeResult);
         
         if (commandeResult && (commandeResult.status === 200 || commandeResult.status === 201)) {
-            navigate("/");
+            navigate("/listcommande");
         }
     } catch (error) {
         console.error("Error submitting form:", error);
@@ -113,7 +113,7 @@ const onSubmit = async (data) => {
            
         </Form.Group>
         <button type="submit" >{commandeId ? "Update Commande" : "Add Commande"}</button>
-        <button type="reset" onClick={()=>{navigate("/")}}>Cancel</button>
+        <button type="reset" onClick={()=>{navigate("/listcommande")}}>Cancel</button>
     </Form>
     </>
   )
