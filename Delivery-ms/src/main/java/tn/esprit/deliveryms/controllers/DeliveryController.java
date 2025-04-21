@@ -1,0 +1,60 @@
+package tn.esprit.deliveryms.controllers;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.deliveryms.entities.Delivery;
+import tn.esprit.deliveryms.services.IDeliveryService;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/deliveries")
+public class DeliveryController {
+
+    private final IDeliveryService deliveryService;
+
+    public DeliveryController(IDeliveryService deliveryService) {
+        this.deliveryService = deliveryService;
+    }
+    // Create new delivery
+    @PostMapping("/create")
+    public ResponseEntity<Delivery> createDelivery(@RequestBody Delivery delivery) {
+        Delivery saved = deliveryService.createDelivery(delivery);
+        return ResponseEntity.ok(saved);
+    }
+
+    // Get all deliveries
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Delivery>> getAllDeliveries() {
+        return ResponseEntity.ok(deliveryService.getAllDeliveries());
+    }
+
+    // Get delivery by commande ID
+//    @GetMapping("/commande/{commandeId}")
+//    public ResponseEntity<Delivery> getDeliveryByCommandeId(@PathVariable Long commandeId) {
+//        return deliveryService.getDeliveryByCommandeId(commandeId)
+//                .map(ResponseEntity::ok)
+//                .orElse(ResponseEntity.notFound().build());
+//    }
+
+    // Update delivery by ID
+    @PutMapping("/getById/{id}")
+    public ResponseEntity<Delivery> updateDelivery(
+            @PathVariable Long id,
+            @RequestBody Delivery updatedDelivery
+    ) {
+        try {
+            Delivery updated = deliveryService.updateDelivery(id, updatedDelivery);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Delete delivery by ID
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteDelivery(@PathVariable Long id) {
+        deliveryService.deleteDelivery(id);
+        return ResponseEntity.noContent().build();
+    }
+}
