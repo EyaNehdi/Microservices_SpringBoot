@@ -118,6 +118,15 @@ services:
     depends_on:
       - docker-mysql_1
 
+  appuser:
+    image: jyhedhr/trelix_back_image:latest  # Replace with actual tag if different
+    container_name: back
+    ports:
+      - '5000:5000'
+    environment:
+      MONGO_URI: "mongodb+srv://eyanehdi:Trelix123@trelix.1akuy.mongodb.net/Trelix?retryWrites=true&w=majority"
+
+
 volumes:
   mysql_data:
   keycloak_data:

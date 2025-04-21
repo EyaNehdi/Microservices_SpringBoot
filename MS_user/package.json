@@ -19,6 +19,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.13.2",
     "morgan": "~1.9.1",
+    "ms-user": "file:",
     "yup": "^1.6.1"
   }
 }

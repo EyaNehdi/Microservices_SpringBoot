@@ -11,7 +11,12 @@ const mongoose = require('mongoose');
 var authRoutes = require('./routes/authRoutes');
 
 var app = express();
-
+app.use(cors({
+  origin: "http://localhost:5173",  // Assurez-vous que le frontend utilise ce port
+  credentials: true,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -62,12 +67,7 @@ startApp();
 
 //cors
 
-app.use(cors({
-  origin: "http://localhost:5173",  // Assurez-vous que le frontend utilise ce port
-  credentials: true,
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
+
 app.listen(PORT, () => {
   console.log(`🟢 Server is running on http://localhost:${PORT}`);
 });
