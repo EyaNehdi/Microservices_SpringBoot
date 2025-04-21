@@ -8,6 +8,7 @@ export const getAllProducts = async () => {
     return axios.get(`${API_BASE_URL}/all`);
 };
 
+
 export const addProduct = async (product) => {
     return axios.post(`${API_BASE_URL}/add`, product);
 };

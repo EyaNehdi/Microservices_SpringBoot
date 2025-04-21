@@ -43,11 +43,12 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   overflow-x: hidden;
+  background-color: #f8f9fa;
 }
 
 body {
-  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
   color: var(--gray-800);
   background-color: var(--gray-50);
@@ -70,11 +71,17 @@ body {
   align-items: center;
   background-color: var(--dark);
   color: white;
-  padding: 0.75rem 2rem;
+  padding: 0.75rem 1rem;
   width: 100%;
   z-index: 10;
   box-shadow: var(--shadow);
   flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+  .navbar {
+    padding: 0.75rem 2rem;
+  }
 }
 
 .navbar-brand {
@@ -92,10 +99,29 @@ body {
   display: flex;
   list-style: none;
   flex-wrap: wrap;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .navbar-nav {
+    width: auto;
+    margin-top: 0;
+  }
 }
 
 .nav-item {
-  margin-left: 1.5rem;
+  margin-left: 0;
+  margin-right: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .nav-item {
+    margin-left: 1.5rem;
+    margin-right: 0;
+    margin-bottom: 0;
+  }
 }
 
 .nav-link {
@@ -191,12 +217,14 @@ body {
   width: 100%;
   position: relative;
   max-width: 100%;
+  margin-top: 1rem;
 }
 
 @media (min-width: 768px) {
   .search-container {
     width: 300px;
     max-width: 300px;
+    margin-top: 0;
   }
 }
 
@@ -337,6 +365,9 @@ body {
   color: white;
   transition: var(--transition);
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (min-width: 768px) {
@@ -920,6 +951,8 @@ body {
 
 /* Stats section */
 .stats-section {
+  margin-top: 3rem;
+  width: 100%;
   background-color: var(--gray-50);
   padding: 2rem 1rem;
   text-align: center;
@@ -961,13 +994,13 @@ body {
 }
 
 .stat-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
   text-align: center;
   height: 100%;
   transition: var(--transition);
@@ -987,9 +1020,11 @@ body {
 }
 
 .stat-icon {
+  color: #3498db;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
   width: 40px;
   height: 40px;
-  color: var(--primary);
   margin-bottom: 0.75rem;
   flex-shrink: 0;
 }
@@ -1020,6 +1055,10 @@ body {
 }
 
 .stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--dark);
@@ -1033,6 +1072,8 @@ body {
 }
 
 .stat-description {
+  color: #6c757d;
+  font-size: 0.875rem;
   font-size: 0.8rem;
   color: var(--gray-500);
 }
@@ -1141,25 +1182,6 @@ body {
   }
 }
 
-.home-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--primary);
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--border-radius);
-  text-decoration: none;
-  font-weight: bold;
-  transition: var(--transition);
-}
-
-.home-link:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
 /* Responsive table for small screens */
 @media (max-width: 767px) {
   .reclamations-table,
@@ -1235,27 +1257,394 @@ body {
 }
 
 /* Fix for very small screens */
-@media (max-width: 360px) {
-  .navbar {
-    padding: 0.5rem;
+@media (max-width: 576px) {
+  .header {
+    padding: 0.75rem;
   }
 
-  .navbar-brand {
-    font-size: 1rem;
+  .container {
+    padding: 0.75rem;
   }
 
-  .nav-item {
-    margin-left: 0.75rem;
+  .feature-card,
+  .stat-card {
+    padding: 1rem;
   }
 
-  .app-header h1 {
+  .section-title {
     font-size: 1.5rem;
   }
 
-  .form-control,
-  .btn,
-  .edit-btn,
-  .delete-btn {
-    padding: 0.5rem 0.75rem;
+  .stat-value {
+    font-size: 1.5rem;
   }
 }
+
+/* Assurez-vous que tout est visible sur les très petits écrans */
+@media (max-width: 320px) {
+  .feature-title {
+    font-size: 1.1rem;
+  }
+
+  .feature-description {
+    font-size: 0.9rem;
+  }
+
+  .stat-value {
+    font-size: 1.25rem;
+  }
+}
+
+/* Correction pour s'assurer que le contenu s'étend sur toute la largeur */
+.full-width {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+/* Assurez-vous que les images sont responsives */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Correction pour les problèmes de débordement */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Ajout d'un peu d'espace en bas de la page */
+.footer-space {
+  height: 2rem;
+}
+
+/* Ensure images are responsive */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ensure buttons and inputs are touch-friendly on mobile */
+@media (max-width: 767px) {
+  .btn,
+  .edit-btn,
+  .delete-btn,
+  .form-control,
+  .search-input {
+    min-height: 44px; /* Minimum touch target size */
+  }
+
+  .nav-link {
+    padding: 0.5rem;
+    margin: 0.25rem 0;
+  }
+}
+
+/* Improve navbar responsiveness */
+@media (max-width: 767px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-brand {
+    margin-bottom: 0.5rem;
+  }
+
+  .navbar-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-item {
+    margin: 0.25rem 0;
+  }
+}
+
+/* Fix for iOS input styling */
+input,
+textarea,
+select {
+  -webkit-appearance: none;
+  border-radius: var(--border-radius);
+}
+
+/* Header - correction pour qu'il soit complètement visible */
+.header {
+  width: 100%;
+  background: linear-gradient(90deg, #1a4b6e 0%, #2980b9 100%);
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-height: 60px;
+}
+
+/* Conteneur principal - s'étend sur toute la largeur */
+.container {
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem;
+  margin: 0 auto;
+}
+
+/* Cartes de fonctionnalités */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.feature-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #3498db;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.feature-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.feature-description {
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+/* Section statistiques */
+.stats-section {
+  margin-top: 3rem;
+  width: 100%;
+}
+
+.section-title {
+  font-size: 1.75rem;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.stat-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+.stat-icon {
+  color: #3498db;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.stat-description {
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+/* Responsive pour petits écrans */
+@media (max-width: 576px) {
+  .header {
+    padding: 0.75rem;
+  }
+
+  .container {
+    padding: 0.75rem;
+  }
+
+  .feature-card,
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+}
+
+/* Assurez-vous que tout est visible sur les très petits écrans */
+@media (max-width: 320px) {
+  .feature-title {
+    font-size: 1.1rem;
+  }
+
+  .feature-description {
+    font-size: 0.9rem;
+  }
+
+  .stat-value {
+    font-size: 1.25rem;
+  }
+}
+
+/* Correction pour s'assurer que le contenu s'étend sur toute la largeur */
+.full-width {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+/* Assurez-vous que les images sont responsives */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Correction pour les problèmes de débordement */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Ajout d'un peu d'espace en bas de la page */
+.footer-space {
+  height: 2rem;
+}
+/* Statistics Page Styles */
+.statistics-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.stat-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  flex: 1;
+  min-width: 300px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card h3 {
+  margin-top: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.stat-value {
+  font-size: 2em;
+  color: #007bff;
+  margin: 10px 0;
+}
+
+.bar-chart {
+  margin-top: 10px;
+}
+
+.bar-chart-item {
+  margin-bottom: 10px;
+}
+
+.bar-label {
+  display: block;
+  font-size: 0.9em;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.bar {
+  height: 20px;
+  background: #007bff;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.monthly-stats {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+}
+
+.monthly-stats li {
+  padding: 5px 0;
+  font-size: 0.9em;
+  color: #333;
+  border-bottom: 1px solid #eee;
+}
+
+.error-message {
+  color: #dc3545;
+  text-align: center;
+  padding: 20px;
+  font-size: 1.1em;
+}
+
+
+

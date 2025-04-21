@@ -4,6 +4,7 @@ import Home from "./components/home"
 import ProductManagement from "./components/ProductManagement"
 import NotFound from "./components/NotFound"
 import ReclamationManagement from "./components/reclamation-management"
+import ReclamationStatistics from "./components/ReclamationStatistics"
 
 import "./styles.css"
 
@@ -17,11 +18,16 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<ProductManagement />} />
             <Route path="/reclamation" element={<ReclamationManagement />} />
+            <Route path="/statistics" element={<ReclamationStatistics/>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
       </div>
     </Router>
+
+
+
+
   )
 }
 

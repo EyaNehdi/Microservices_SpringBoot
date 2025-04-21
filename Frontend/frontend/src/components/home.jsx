@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { ShoppingBag, Package, BarChart2, Tag, TrendingUp, Settings } from "lucide-react"
 
 function Home() {
+  
   return (
     <div className="home-container">
       <div className="hero-section">
