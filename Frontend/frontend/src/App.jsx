@@ -13,6 +13,7 @@ import "./styles.css"
 import Stat from "./components/Stat"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
+import DeliveryManager from "./components/DeliveryManager"
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
       <Route path="/commandeForm" element={<CommandeForm />} />
       <Route path="/update-commande/:commandeId" element={<CommandeForm />} />
       <Route path="/stat" element={<Stat />} />
+      <Route path="/deliveries" element={<DeliveryManager />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
