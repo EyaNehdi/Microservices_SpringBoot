@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = "http://localhost:8089/produits"; 
-const Reclamation_BASE_URL = "http://localhost:8087/reclamation"; // Your Spring Boot backend
+const API_BASE_URL = "http://localhost:7000/produits"; 
+const Reclamation_BASE_URL = "http://localhost:7000/reclamation"; 
+const API_EVENT_URL = "http://localhost:8088/event";// Your Spring Boot backend
 // Your Spring Boot backend
 
 export const getAllProducts = async () => {
@@ -23,7 +24,7 @@ export const addReclamation = async (reclamation) => {
 
 //Event
 
-const API_EVENT_URL = "http://localhost:8088/event";
+
 // ✅ Récupérer tous les événements
 export const getAllEvents = async () => {
     try {
@@ -38,7 +39,7 @@ export const getAllEvents = async () => {
 // ✅ Ajouter un nouvel événement
 export const addEvent = async (event) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/add`, event);
+        const response = await axios.post(`${API_EVENT_URL}/add`, event);
         return response.data;
     } catch (error) {
         console.error("Erreur lors de l'ajout de l'événement :", error);
