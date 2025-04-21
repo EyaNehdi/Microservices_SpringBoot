@@ -20,7 +20,7 @@ function ProductManagement() {
   const fetchProducts = async () => {
     setLoading(true)
     try {
-      const response = await axios.get("http://localhost:8089/produits/all")
+      const response = await axios.get("http://localhost:7000/produits/all")
       setProducts(response.data)
     } catch (error) {
       console.error("Error fetching products:", error)

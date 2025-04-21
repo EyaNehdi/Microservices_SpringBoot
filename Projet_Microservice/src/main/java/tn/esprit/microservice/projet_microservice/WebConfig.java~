@@ -1,4 +1,4 @@
-package tn.esprit.microservice.projet_microservice;
+package com.esprit.microservice.commande;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

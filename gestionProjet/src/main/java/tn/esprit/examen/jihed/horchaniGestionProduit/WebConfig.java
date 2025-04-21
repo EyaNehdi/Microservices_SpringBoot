@@ -1,5 +1,4 @@
-package com.esprit.microservice.commande;
-
+package tn.esprit.examen.jihed.horchaniGestionProduit;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
