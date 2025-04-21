@@ -13,10 +13,10 @@
     "axios": "^1.8.4",
     "chart.js": "^4.4.9",
     "emailjs-com": "^3.2.0",
+    "framer-motion": "^12.7.4",
     "frontend": "file:",
     "import": "^0.0.6",
     "jspdf": "^3.0.1",
-
     "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.501.0",
     "react": "^19.0.0",
@@ -25,6 +25,7 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.0",
     "react-router-dom": "^7.4.1",
+    "react-toastify": "^11.0.5",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
