@@ -11,6 +11,8 @@ import CommandeForm from "./components/CommandeForm"
 
 import "./styles.css"
 import Stat from "./components/Stat"
+import Login from "./pages/Login"
+import Register from "./pages/Register"
 
 function App() {
   return (
@@ -19,7 +21,9 @@ function App() {
         <Navbar />
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<Register />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/products" element={<ProductManagement />} />
             <Route path="/reclamation" element={<ReclamationManagement />} />
             <Route path="/statistics" element={<ReclamationStatistics/>} />
