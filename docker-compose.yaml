@@ -77,6 +77,30 @@ services:
       - Gestionproduit
       - keycloak
       - event
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_DB: art_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  delivery-ms:
+    build: ./Delivery-ms
+    container_name: delivery-ms
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/art_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      - postgres
+      - eurekaServer
 
   keycloak:
     image: quay.io/keycloak/keycloak:23.0
@@ -90,7 +114,7 @@ services:
       KC_DB_URL: jdbc:mysql://docker-mysql_1:3306/keycloak
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: keycloakpassword
-    command: ["start-dev"]
+    command: [ "start-dev" ]
     depends_on:
       - docker-mysql_1
 
@@ -98,3 +122,4 @@ volumes:
   mysql_data:
   keycloak_data:
   mongodb_data:
+  postgres-data:

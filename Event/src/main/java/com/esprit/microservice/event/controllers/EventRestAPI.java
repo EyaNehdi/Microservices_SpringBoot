@@ -12,8 +12,10 @@ import java.util.Map;
 
 @Tag(name = "\uD83D\uDCC5 Event Management")
 @RestController
+
 @RequestMapping("/event")
 //@CrossOrigin(origins = "http://localhost:5173")
+
 @RequiredArgsConstructor
 public class EventRestAPI {
 

@@ -16,8 +16,8 @@ const register = async (req, res) => {
 
   try {
     // Validate input fields
-    if (!firstName || !lastName || !email || !password || !role) {
-      console.error("❌ Validation Failed: Missing Fields", { firstName, lastName, email, password, role });
+    if (!firstName || !lastName || !email || !password  ) {
+      console.error("❌ Validation Failed: Missing Fields", { firstName, lastName, email, password });
       return res.status(400).json({ error: "All fields are required" });
     }
 
@@ -51,7 +51,6 @@ const register = async (req, res) => {
     console.log("✅ JWT Token generated for user:", newUser._id);
 
     // Send the verification email with the token
-    await sendVerificationEmail(newUser.email, verificationToken);
     console.log("📧 Verification email sent to:", newUser.email);
 
     res.status(201).json({

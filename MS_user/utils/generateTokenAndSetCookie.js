@@ -11,7 +11,7 @@ const generateToken = (res, userId, stayLoggedIn) => {
     const cookieOptions = {
         httpOnly: true,
         secure: true,
-        sameSite: "none",
+        sameSite: "lax",
         path: "/",
     };
 
