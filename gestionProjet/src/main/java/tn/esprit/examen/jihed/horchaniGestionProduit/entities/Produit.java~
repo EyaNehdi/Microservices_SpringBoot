@@ -20,6 +20,5 @@ public class Produit  implements Serializable {
     String nomProduit;
     String description;
     float prixUnitaire;
-    @Enumerated(EnumType.STRING)
-    Genre genre;
+
 }

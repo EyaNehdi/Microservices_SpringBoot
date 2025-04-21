@@ -37,7 +37,7 @@ public class ProduitRestController {
     public Produit add(
             @RequestParam("nomProduit") String nomProduit,
             @RequestParam("description") String description,
-            @RequestParam("prixUnitaire") float prixUnitaire,
+            @RequestParam("prixUnitaire") double prixUnitaire,
             @RequestParam(value = "image", required = false) MultipartFile image) {
 
         Produit produit = new Produit();
@@ -64,7 +64,7 @@ public class ProduitRestController {
             @RequestParam("id") Long id,
             @RequestParam("nomProduit") String nomProduit,
             @RequestParam("description") String description,
-            @RequestParam("prixUnitaire") float prixUnitaire,
+            @RequestParam("prixUnitaire") double prixUnitaire,
             @RequestParam(value = "image", required = false) MultipartFile image) {
 
         Optional<Produit> existingProduct = services.getProduitById(id);
