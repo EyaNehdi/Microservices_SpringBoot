@@ -20,8 +20,23 @@ function Navbar() {
           </Link>
         </li>
         <li className="nav-item">
-          <Link to="/reclamations" className={`nav-link ${location.pathname === "/reclamations" ? "active" : ""}`}>
+          <Link to="/reclamation" className={`nav-link ${location.pathname === "/reclamation" ? "active" : ""}`}>
             Réclamations
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link to="/listcommande" className={`nav-link ${location.pathname === "/listcommande" ? "active" : ""}`}>
+            Mes Commandes
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link to="/commandeForm" className={`nav-link ${location.pathname === "/commandeForm" ? "active" : ""}`}>
+            Ajouter Commande
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link to="/stat" className={`nav-link ${location.pathname === "/stat" ? "active" : ""}`}>
+            Evennements
           </Link>
         </li>
       </ul>

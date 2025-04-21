@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -22,9 +24,21 @@ public class EventService implements IEventService {
     }
 
     // Mettre à jour un événement
-    public Event updateEvent(Event event) {
-        return eventRepository.save(event);
+    public Event updateEvent(String id, Event event) {
+
+        Optional<Event> existingEvent = eventRepository.findById(id);
+        if (existingEvent.isPresent()) {
+            Event eventToUpdate = existingEvent.get();
+            eventToUpdate.setNomEvent(event.getNomEvent());
+            eventToUpdate.setDescription(event.getDescription());
+            eventToUpdate.setLieu(event.getLieu());
+            eventToUpdate.setDate(event.getDate());
+            return eventRepository.save(eventToUpdate);
+        } else {
+            throw new RuntimeException("L'événement avec l'ID " + id + " n'existe pas.");
+        }
     }
+
 
 
 
@@ -64,10 +78,22 @@ public class EventService implements IEventService {
 
 
     }
-//recherche 
+//recherche with name
     @Override
     public List<Event> searchEventsByNameAndLocation(String nomEvent, String lieu) {
         return eventRepository.findByNomEventIgnoreCaseAndLieuIgnoreCase(nomEvent, lieu);
+    }
+
+
+    // Ajouter une méthode dans le service pour obtenir des statistiques par lieu
+    public Map<String, Long> getEventStatsByLocation() {
+        List<Event> events = (List<Event>) eventRepository.findAll();
+
+        // Compter le nombre d'événements par lieu
+        Map<String, Long> stats = events.stream()
+                .collect(Collectors.groupingBy(Event::getLieu, Collectors.counting()));
+
+        return stats;
     }
 
 

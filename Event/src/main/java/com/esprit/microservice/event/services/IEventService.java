@@ -10,7 +10,7 @@ public interface IEventService {
     Event addEvent(Event event);
 
     // Mettre à jour un événement
-    Event updateEvent(Event event);
+    Event updateEvent(String id, Event event) ;
 
     // Supprimer un événement
     void deleteEvent(String id);

@@ -1,4 +1,4 @@
-
+"use client"
 
 import { useState, useEffect } from "react"
 import axios from "axios"
@@ -8,9 +8,17 @@ function ProductForm({ refreshProducts, editingProduct, setEditingProduct }) {
     nomProduit: "",
     description: "",
     prixUnitaire: 0,
+    image: null,
   })
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [notificationSettings, setNotificationSettings] = useState({
+    sendEmail: true,
+    sendSms: true,
+    emailTo: "admin@example.com",
+    phoneTo: "+2164567890",
+  })
+  const [imagePreview, setImagePreview] = useState(null)
 
   useEffect(() => {
     if (editingProduct) {
@@ -19,7 +27,15 @@ function ProductForm({ refreshProducts, editingProduct, setEditingProduct }) {
         nomProduit: editingProduct.nomProduit,
         description: editingProduct.description,
         prixUnitaire: editingProduct.prixUnitaire,
+        image: editingProduct.image,
       })
+
+      // If there's an image URL, set it as preview
+      if (editingProduct.imageUrl) {
+        setImagePreview(editingProduct.imageUrl)
+      } else {
+        setImagePreview(null)
+      }
     } else {
       resetForm()
     }
@@ -30,7 +46,9 @@ function ProductForm({ refreshProducts, editingProduct, setEditingProduct }) {
       nomProduit: "",
       description: "",
       prixUnitaire: 0,
+      image: null,
     })
+    setImagePreview(null)
     setErrors({})
   }
 
@@ -75,14 +93,124 @@ function ProductForm({ refreshProducts, editingProduct, setEditingProduct }) {
     }
   }
 
+  const handleNotificationChange = (e) => {
+    const { name, value, type, checked } = e.target
+    setNotificationSettings({
+      ...notificationSettings,
+      [name]: type === "checkbox" ? checked : value,
+    })
+  }
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setProduct({
+        ...product,
+        image: file,
+      })
+
+      // Create a preview
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setImagePreview(reader.result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
   const addProduct = async (productData) => {
-    const response = await axios.post("http://localhost:8089/produits/add", productData)
+    // Create FormData for file upload
+    const formData = new FormData()
+    formData.append("nomProduit", productData.nomProduit)
+    formData.append("description", productData.description)
+    formData.append("prixUnitaire", productData.prixUnitaire)
+
+    if (productData.image) {
+      formData.append("image", productData.image)
+    }
+
+    const response = await axios.post("http://localhost:8089/produits/add", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+
+    // Send notifications if enabled
+    if (notificationSettings.sendEmail) {
+      await sendEmailNotification(
+        notificationSettings.emailTo,
+        "New Product Added",
+        `A new product "${productData.nomProduit}" has been added with price ${productData.prixUnitaire}€.`,
+      )
+    }
+
+    if (notificationSettings.sendSms) {
+      await sendSmsNotification(
+        notificationSettings.phoneTo,
+        `New product added: ${productData.nomProduit} - ${productData.prixUnitaire}€`,
+      )
+    }
+
     return response.data
   }
 
   const updateProduct = async (id, productData) => {
-    const response = await axios.put(`http://localhost:8089/produits/update/${id}`, productData)
+    // Create FormData for file upload
+    const formData = new FormData()
+    formData.append("id", id)
+    formData.append("nomProduit", productData.nomProduit)
+    formData.append("description", productData.description)
+    formData.append("prixUnitaire", productData.prixUnitaire)
+
+    if (productData.image && typeof productData.image !== "string") {
+      formData.append("image", productData.image)
+    }
+
+    const response = await axios.put(`http://localhost:8089/produits/update`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+
+    // Send notifications if enabled
+    if (notificationSettings.sendEmail) {
+      await sendEmailNotification(
+        notificationSettings.emailTo,
+        "Product Updated",
+        `The product "${productData.nomProduit}" has been updated. New price: ${productData.prixUnitaire}€.`,
+      )
+    }
+
+    if (notificationSettings.sendSms) {
+      await sendSmsNotification(
+        notificationSettings.phoneTo,
+        `Product updated: ${productData.nomProduit} - ${productData.prixUnitaire}€`,
+      )
+    }
+
     return response.data
+  }
+
+  const sendEmailNotification = async (to, subject, body) => {
+    try {
+      await axios.post(`http://localhost:8089/produits/sendMAIL`, null, {
+        params: { to, subject, body },
+      })
+      console.log("Email notification sent successfully")
+    } catch (error) {
+      console.error("Failed to send email notification:", error)
+    }
+  }
+
+  const sendSmsNotification = async (to, message) => {
+    try {
+      await axios.post(`http://localhost:8089/produits/sendSMS`, null, {
+        params: { to, message },
+      })
+      console.log("SMS notification sent successfully")
+    } catch (error) {
+      console.error("Failed to send SMS notification:", error)
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -183,6 +311,74 @@ function ProductForm({ refreshProducts, editingProduct, setEditingProduct }) {
         {errors.prixUnitaire && <div className="error-message">{errors.prixUnitaire}</div>}
       </div>
 
+      <div className="form-group">
+        <label htmlFor="image">Product Image</label>
+        <input type="file" id="image" name="image" accept="image/*" onChange={handleImageChange} />
+        {imagePreview && (
+          <div className="image-preview">
+            <img
+              src={imagePreview || "/placeholder.svg"}
+              alt="Product preview"
+              style={{ maxWidth: "100%", maxHeight: "200px", marginTop: "10px" }}
+            />
+          </div>
+        )}
+      </div>
+
+      <div className="notification-settings">
+        <h3>Notification Settings</h3>
+
+        <div className="form-group checkbox-group">
+          <input
+            type="checkbox"
+            id="sendEmail"
+            name="sendEmail"
+            checked={notificationSettings.sendEmail}
+            onChange={handleNotificationChange}
+          />
+          <label htmlFor="sendEmail">Send Email Notification</label>
+        </div>
+
+        {notificationSettings.sendEmail && (
+          <div className="form-group">
+            <label htmlFor="emailTo">Email To</label>
+            <input
+              type="email"
+              id="emailTo"
+              name="emailTo"
+              value={notificationSettings.emailTo}
+              onChange={handleNotificationChange}
+              placeholder="Enter email address"
+            />
+          </div>
+        )}
+
+        <div className="form-group checkbox-group">
+          <input
+            type="checkbox"
+            id="sendSms"
+            name="sendSms"
+            checked={notificationSettings.sendSms}
+            onChange={handleNotificationChange}
+          />
+          <label htmlFor="sendSms">Send SMS Notification</label>
+        </div>
+
+        {notificationSettings.sendSms && (
+          <div className="form-group">
+            <label htmlFor="phoneTo">Phone Number</label>
+            <input
+              type="text"
+              id="phoneTo"
+              name="phoneTo"
+              value={notificationSettings.phoneTo}
+              onChange={handleNotificationChange}
+              placeholder="Enter phone number"
+            />
+          </div>
+        )}
+      </div>
+
       <div className="form-buttons">
         {editingProduct && (
           <button type="button" onClick={cancelEdit} className="cancel-button" disabled={isSubmitting}>
@@ -198,4 +394,3 @@ function ProductForm({ refreshProducts, editingProduct, setEditingProduct }) {
 }
 
 export default ProductForm
-
