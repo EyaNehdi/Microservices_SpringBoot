@@ -34,6 +34,11 @@ function Navbar() {
             Ajouter Commande
           </Link>
         </li>
+        <li className="nav-item">
+          <Link to="/stat" className={`nav-link ${location.pathname === "/stat" ? "active" : ""}`}>
+            Evennements
+          </Link>
+        </li>
       </ul>
     </nav>
   )
