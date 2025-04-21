@@ -1,7 +1,7 @@
 const bcryptjs = require('bcryptjs');
 const User = require('../models/userModel');
 const generateToken = require('../utils/generateTokenAndSetCookie');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const crypto = require('crypto');
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/authStore";
 import Preloader from "../components/Preloader/Preloader";
-
+import { useNavigate } from "react-router-dom";
 import {  ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; 
 function Login() {
@@ -12,15 +12,16 @@ function Login() {
   const [stayLoggedIn, setStayLoggedIn] = useState(false);
   const {  login } = useAuthStore();
 
-
+const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMessage("");
     setLoading(true);
     try {
       await login(email, password, stayLoggedIn);
-     
+     navigate("/home"); // Redirect to home page after successful loggin
       setLoading(false);
+      
     } catch (error) {
       setLoading(false);
       if (error.response?.data?.message === "Account does not exist") {
