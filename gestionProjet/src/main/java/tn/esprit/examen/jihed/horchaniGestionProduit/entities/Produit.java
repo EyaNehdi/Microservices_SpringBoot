@@ -20,5 +20,6 @@ public class Produit  implements Serializable {
     String nomProduit;
     String description;
     float prixUnitaire;
+    String imageUrl;
 
 }
