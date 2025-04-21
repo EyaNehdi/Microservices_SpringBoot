@@ -1,47 +1,45 @@
-import { Link, useLocation } from "react-router-dom"
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import './styles.css';
 
 function Navbar() {
-  const location = useLocation()
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <Link to="/">Système de Gestion</Link>
+        <NavLink to="/">E-Commerce Admin</NavLink>
       </div>
-      <ul className="navbar-nav">
+      <button
+        className="hamburger"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Toggle menu"
+      >
+        ☰
+      </button>
+      <ul className={`navbar-nav ${isOpen ? 'open' : ''}`}>
         <li className="nav-item">
-          <Link to="/" className={`nav-link ${location.pathname === "/" ? "active" : ""}`}>
-            Accueil
-          </Link>
+          <NavLink to="/" className="nav-link" end>Home</NavLink>
         </li>
         <li className="nav-item">
-          <Link to="/products" className={`nav-link ${location.pathname === "/products" ? "active" : ""}`}>
-            Produits
-          </Link>
+          <NavLink to="/products" className="nav-link">Products</NavLink>
         </li>
         <li className="nav-item">
-          <Link to="/reclamation" className={`nav-link ${location.pathname === "/reclamation" ? "active" : ""}`}>
-            Réclamations
-          </Link>
+          <NavLink to="/reclamation" className="nav-link">Reclamations</NavLink>
         </li>
         <li className="nav-item">
-          <Link to="/listcommande" className={`nav-link ${location.pathname === "/listcommande" ? "active" : ""}`}>
-            Mes Commandes
-          </Link>
+          <NavLink to="/statistics" className="nav-link">Statistics</NavLink>
         </li>
         <li className="nav-item">
-          <Link to="/commandeForm" className={`nav-link ${location.pathname === "/commandeForm" ? "active" : ""}`}>
-            Ajouter Commande
-          </Link>
+          <NavLink to="/listcommande" className="nav-link">Orders</NavLink>
         </li>
+      
         <li className="nav-item">
-          <Link to="/stat" className={`nav-link ${location.pathname === "/stat" ? "active" : ""}`}>
-            Evennements
-          </Link>
+          <NavLink to="/stat" className="nav-link">Events</NavLink>
         </li>
       </ul>
     </nav>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

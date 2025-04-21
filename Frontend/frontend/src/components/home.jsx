@@ -11,16 +11,7 @@ function Home() {
           A comprehensive solution to manage your online store's inventory, track sales, and optimize your product
           catalog
         </p>
-        <div className="home-links">
-          <Link to="/products" className="home-link primary-link">
-            <ShoppingBag className="link-icon" />
-            Manage Products
-          </Link>
-          <Link to="/reclamation" className="home-link primary-link">
-            <ShoppingBag className="link-icon" />
-            Reclamation
-          </Link>
-        </div>
+    
       </div>
 
       <div className="info-section">
@@ -90,13 +81,7 @@ function Home() {
         </div>
       </div>
 
-      <div className="cta-section">
-        <h2>Ready to optimize your product management?</h2>
-        <p>Start managing your e-commerce inventory efficiently today.</p>
-        <Link to="/products" className="home-link cta-link">
-          Go to Product Management
-        </Link>
-      </div>
+    
     </div>
   )
 }
