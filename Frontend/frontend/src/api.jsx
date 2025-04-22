@@ -100,7 +100,7 @@ export const exportPDF = async (events) => {
 
 export const triggerReminderNotifications = async () => {
     try {
-        const response = await axios.get("http://localhost:8088/event/trigger-reminders");
+        const response = await axios.get("http://localhost:7000/event/trigger-reminders");
         return response.data;
     } catch (error) {
         console.error("Erreur lors du déclenchement des notifications :", error);

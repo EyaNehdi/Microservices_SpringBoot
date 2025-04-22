@@ -193,8 +193,8 @@ function ReclamationForm({ refreshReclamations, editingReclamation, setEditingRe
               Annuler
             </button>
           )}
-          <button type="submit" className="btn" disabled={isSubmitting}>
-            {isSubmitting ? "Enregistrement..." : editingReclamation ? "Mettre à jour" : "Envoyer"}
+          <button type="submit" className="submit-button" disabled={isSubmitting}>
+            {isSubmitting ? "Enregistrement..." : editingReclamation ? "Mettre à jour" : "Ajouter Reclamation"}
           </button>
         </div>
       </form>
