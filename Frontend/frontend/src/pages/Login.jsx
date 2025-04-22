@@ -7,6 +7,7 @@ import { User, Lock } from "lucide-react";
 import "react-toastify/dist/ReactToastify.css";
 import "./login.css"; // Ajoute ce fichier CSS pour les styles avancés
 
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

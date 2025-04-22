@@ -5,6 +5,7 @@ import './styles.css';
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
+  
   return (
     <nav className="navbar">
       <div className="navbar-brand">
