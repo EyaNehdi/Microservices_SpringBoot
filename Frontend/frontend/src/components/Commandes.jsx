@@ -41,16 +41,11 @@ function Commandes() {
         }
     };
     //export pdf
-    const handleExportPDF = async () => {
-      try {
-          // Call the backend to get the PDF file as a Blob
-          const response = await axios.get("http://localhost:7000/commande/export", {
-              responseType: "blob", // Make sure Axios knows the response is a Blob
-          });
+   
 
   const handleExportPDF = async () => {
     try {
-      const response = await axios.get("http://localhost:8066/commande/export", {
+      const response = await axios.get("http://localhost:7000/commande/export", {
         responseType: "blob",
       });
 
@@ -83,6 +78,7 @@ const handleExportExcel = async () => {
       console.error("Response headers:", error.response.headers);
     }
   };
+};
 
   return (
     <div className="container py-4">

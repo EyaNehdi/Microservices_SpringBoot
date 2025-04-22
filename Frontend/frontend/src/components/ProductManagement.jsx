@@ -42,7 +42,7 @@ function ProductManagement() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8089/produits/delete/${id}`)
+      await axios.delete(`http://localhost:7000/produits/delete/${id}`)
       refreshProducts()
       setShowConfirmDelete(false)
       setProductToDelete(null)

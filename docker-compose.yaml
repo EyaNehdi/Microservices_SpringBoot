@@ -90,8 +90,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   delivery-ms:
-    build: ./Delivery-ms
-    container_name: delivery-ms
+    image: jyhedhr/delivery-ms:latest
     ports:
       - "8082:8082"
     environment:
