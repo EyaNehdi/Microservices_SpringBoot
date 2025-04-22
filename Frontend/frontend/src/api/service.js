@@ -3,7 +3,7 @@ import axios from 'axios';
 // ✅ Correct backend URL for local dev
 //  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:7000";
 //  const url = `${apiUrl}/commande`;
-const url = "http://localhost:8066/commande"
+const url = "http://localhost:7000/commande"
 // Get all commandes
 export const getAllCommandes = async () => {
     return await axios.get(`${url}/all`);
