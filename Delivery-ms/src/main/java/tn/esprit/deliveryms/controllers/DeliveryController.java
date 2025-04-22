@@ -17,9 +17,9 @@ public class DeliveryController {
         this.deliveryService = deliveryService;
     }
     // Create new delivery
-    @PostMapping("/create")
-    public ResponseEntity<Delivery> createDelivery(@RequestBody Delivery delivery) {
-        Delivery saved = deliveryService.createDelivery(delivery);
+    @PostMapping("/create/{id}")
+    public ResponseEntity<Delivery> createDelivery(@RequestBody Delivery delivery, @PathVariable String id) {
+        Delivery saved = deliveryService.createDelivery(delivery, id);
         return ResponseEntity.ok(saved);
     }
 

@@ -4,18 +4,18 @@ import Commande from "./Commande";
 import axios from 'axios';
 
 function Commandes() {
-  const { deleteCommande } = useCommandeStore();
-  const { commandes, fetchAllCommandes, setCommandes } = useCommandeStore();
-  const [sortField, setSortField] = useState("totalPrice");
-  const [sortOrder, setSortOrder] = useState("asc");
 
-  const fetchCommandes = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8066/commande/sort/${sortOrder}?field=${sortField}`);
-      setCommandes(response.data);
-    } catch (error) {
-      console.error("Error fetching commandes:", error);
-    }
+    const {deleteCommande } = useCommandeStore();
+    const { commandes, fetchAllCommandes , setCommandes } = useCommandeStore();
+    const [sortField, setSortField] = useState("totalPrice"); // Default sorting by totalPrice
+    const [sortOrder, setSortOrder] = useState("asc"); // Default sort order is ascending
+    const fetchCommandes = async () => {
+      try {
+          const response = await axios.get(`http://localhost:7000/commande/sort/${sortOrder}?field=${sortField}`);
+          setCommandes(response.data);
+      } catch (error) {
+          console.error("Error fetching commandes:", error);
+      }
   };
 
   useEffect(() => {
@@ -30,15 +30,23 @@ function Commandes() {
     setSortOrder("desc");
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await deleteCommande(id);
-      console.log("Attempting to delete commande with ID:", id);
-      fetchAllCommandes();
-    } catch (error) {
-      console.error("Failed to delete event:", error);
-    }
-  };
+
+    const handleDelete = async (id) => {
+        try {
+            await deleteCommande(id);
+            console.log("Attempting to delete commande with ID:", id);
+            fetchAllCommandes();
+        } catch (error) {
+            console.error("Failed to delete event:", error);
+        }
+    };
+    //export pdf
+    const handleExportPDF = async () => {
+      try {
+          // Call the backend to get the PDF file as a Blob
+          const response = await axios.get("http://localhost:7000/commande/export", {
+              responseType: "blob", // Make sure Axios knows the response is a Blob
+          });
 
   const handleExportPDF = async () => {
     try {
@@ -55,23 +63,24 @@ function Commandes() {
     }
   };
 
-  const handleExportExcel = async () => {
-    try {
-      console.log("Attempting to export Excel");
-      const response = await axios.get("http://localhost:8066/commande/excel", {
-        responseType: "blob"
-      });
-
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(response.data);
-      link.download = "commandes_list.xlsx";
-      link.click();
-    } catch (error) {
-      console.error("Error during Excel export:", error);
-      if (error.response) {
-        console.error("Response status:", error.response.status);
-        console.error("Response headers:", error.response.headers);
-      }
+// Export Excel functionality
+const handleExportExcel = async () => {
+  try {
+    console.log("Attempting to export Excel");
+    const response = await axios.get("http://localhost:7000/commande/excel", {
+      responseType: "blob"
+    });
+    console.log("Excel export successful", response);
+    
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(response.data);
+    link.download = "commandes_list.xlsx";
+    link.click();
+  } catch (error) {
+    console.error("Error during Excel export:", error);
+    if (error.response) {
+      console.error("Response status:", error.response.status);
+      console.error("Response headers:", error.response.headers);
     }
   };
 

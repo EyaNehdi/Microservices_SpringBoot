@@ -1,6 +1,7 @@
 package com.esprit.microservice.commande.services;
 
 import com.esprit.microservice.commande.entities.Commande;
+import com.esprit.microservice.commande.entities.ProductDTO;
 import com.esprit.microservice.commande.repositories.ICommandeRepository;
 import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -28,6 +30,7 @@ import java.util.List;
 public class CommandeService implements ICommandeService{
 
     private final ICommandeRepository commandeRepository;
+    private final ProductClient productClient;
 
     public Commande addCommande(Commande commande) {
         System.out.println("Received data: " + commande);
@@ -130,5 +133,38 @@ public class CommandeService implements ICommandeService{
         headers.add("Content-Disposition", "attachment; filename=commandes_list.xlsx");
 
         return new ResponseEntity<>(excelFile, headers, HttpStatus.OK);
+    }
+
+
+    public void addProductToOrder(String commandeId, String productId) {
+        Commande commande = commandeRepository.findById(commandeId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        ProductDTO product = productClient.getProductById(productId);
+        commande.getProductIds().add(productId);
+        commande.setTotalPrice(commande.getTotalPrice() + product.getPrixUnitaire());
+        commandeRepository.save(commande);
+    }
+
+    public void removeProductFromOrder(String commandeId, String productId) {
+        Commande commande = commandeRepository.findById(commandeId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        ProductDTO product = productClient.getProductById(productId);
+        commande.getProductIds().remove(productId);
+        commande.setTotalPrice(commande.getTotalPrice() - product.getPrixUnitaire());
+        commandeRepository.save(commande);
+    }
+
+    public List<ProductDTO> getOrderProducts(String commandeId) {
+        Commande commande = commandeRepository.findById(commandeId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        List<ProductDTO> products = new ArrayList<>();
+        for (String productId : commande.getProductIds()) {
+            products.add(productClient.getProductById(productId));
+        }
+
+        return products;
     }
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface IDeliveryService {
 
-    Delivery createDelivery(Delivery delivery);
+    Delivery createDelivery(Delivery delivery, String id);
 
     List<Delivery> getAllDeliveries();
 

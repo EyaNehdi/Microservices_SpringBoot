@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const BASE_URL = "http://localhost:7000/deliveries";
-axios.defaults.withCredentials = true;
+
 const initialDelivery = {
   commandeId: "",
   address: "",
@@ -19,7 +19,7 @@ const DeliveryManager = () => {
   const [editingId, setEditingId] = useState(null);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [filterText, setFilterText] = useState("");
-
+  axios.defaults.withCredentials = true;
   useEffect(() => {
     fetchAllDeliveries();
   }, []);
@@ -44,7 +44,8 @@ const DeliveryManager = () => {
         await axios.put(`${BASE_URL}/getById/${editingId}`, form);
         setEditingId(null);
       } else {
-        await axios.post(`${BASE_URL}/create`, form);
+        const relatedId = '6807efdfcfba5c23d28f6f9a';
+        await axios.post(`${BASE_URL}/create/${relatedId}`, form);
       }
       setForm(initialDelivery);
       fetchAllDeliveries();
