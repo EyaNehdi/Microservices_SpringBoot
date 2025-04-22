@@ -15,6 +15,7 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import DeliveryManager from "./components/DeliveryManager"
 
+
 function App() {
   return (
     <Router>
@@ -22,9 +23,9 @@ function App() {
         <Navbar />
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Register />} />
-            <Route path="/home" element={<Home />} />
             <Route path="/products" element={<ProductManagement />} />
             <Route path="/reclamation" element={<ReclamationManagement />} />
             <Route path="/statistics" element={<ReclamationStatistics/>} />

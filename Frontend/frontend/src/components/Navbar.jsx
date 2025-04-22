@@ -19,7 +19,7 @@ function Navbar() {
       </button>
       <ul className={`navbar-nav ${isOpen ? 'open' : ''}`}>
         <li className="nav-item">
-          <NavLink to="/" className="nav-link" end>Home</NavLink>
+          <NavLink to="/login" className="nav-link" end>Login</NavLink>
         </li>
         <li className="nav-item">
           <NavLink to="/products" className="nav-link">Products</NavLink>
@@ -27,9 +27,7 @@ function Navbar() {
         <li className="nav-item">
           <NavLink to="/reclamation" className="nav-link">Reclamations</NavLink>
         </li>
-        <li className="nav-item">
-          <NavLink to="/statistics" className="nav-link">Statistics</NavLink>
-        </li>
+      
         <li className="nav-item">
           <NavLink to="/listcommande" className="nav-link">Orders</NavLink>
         </li>
