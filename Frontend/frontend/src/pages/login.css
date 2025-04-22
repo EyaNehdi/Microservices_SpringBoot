@@ -1,0 +1,60 @@
+.login-background {
+                      background: linear-gradient(to right, #141e30, #243b55);
+                      min-height: 100vh;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      animation: fadeIn 1s ease-in;
+                    }
+                    
+                    
+                    .glass-card {
+                      background: rgba(255, 255, 255, 0.05);
+                      backdrop-filter: blur(10px);
+                      border-radius: 20px;
+                      padding: 40px;
+                      width: 100%;
+                      max-width: 400px;
+                      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+                      border: 1px solid rgba(255, 255, 255, 0.18);
+                      animation: slideUp 0.7s ease-out;
+                    }
+                    
+                    .input-group-text {
+                      background: transparent;
+                      border: none;
+                      color: white;
+                    }
+                    
+                    input.form-control {
+                      background: transparent;
+                      border: none;
+                      border-bottom: 1px solid white;
+                      color: white;
+                      border-radius: 0;
+                    }
+                    
+                    input::placeholder {
+                      color: rgba(255, 255, 255, 0.6);
+                    }
+                    
+                    @keyframes slideUp {
+                      from {
+                        transform: translateY(50px);
+                        opacity: 0;
+                      }
+                      to {
+                        transform: translateY(0px);
+                        opacity: 1;
+                      }
+                    }
+                    
+                    @keyframes fadeIn {
+                      from {
+                        opacity: 0;
+                      }
+                      to {
+                        opacity: 1;
+                      }
+                    }
+                    
