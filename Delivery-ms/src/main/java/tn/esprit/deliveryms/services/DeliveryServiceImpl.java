@@ -2,6 +2,7 @@ package tn.esprit.deliveryms.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tn.esprit.deliveryms.entities.CommandeDTO;
 import tn.esprit.deliveryms.entities.Delivery;
 import tn.esprit.deliveryms.repositories.DeliveryRepository;
 
@@ -12,9 +13,16 @@ import java.util.Optional;
 public class DeliveryServiceImpl implements IDeliveryService{
     @Autowired
     private DeliveryRepository deliveryRepository;
+    @Autowired
+    private CommandeClient commandeClient;
 
     @Override
-    public Delivery createDelivery(Delivery delivery) {
+    public Delivery createDelivery(Delivery delivery, String id) {
+        CommandeDTO commande = commandeClient.getCommandeById(id);
+        if (commande == null) {
+            throw new RuntimeException("Commande not found");
+        }
+        delivery.setCommande(commande);
         return deliveryRepository.save(delivery);
     }
 

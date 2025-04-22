@@ -1,6 +1,7 @@
 package com.esprit.microservice.commande.controllers;
 
 import com.esprit.microservice.commande.entities.Commande;
+import com.esprit.microservice.commande.entities.ProductDTO;
 import com.esprit.microservice.commande.services.CommandeService;
 import com.itextpdf.io.source.ByteArrayOutputStream;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+
 @Tag(name = "\uD83D\uDCDA Commande Management")
 @RestController
 @RequestMapping("/commande")
@@ -76,5 +79,29 @@ public class CommandeRestAPI {
     @GetMapping("/excel")
     public ResponseEntity<byte[]> exportCommandesToExcel() throws IOException{
         return commandeService.exportCommandesToExcel();
+    }
+
+
+    // Add a product to the order
+    @PostMapping("/add-product/{commandeId}")
+    public ResponseEntity<Void> addProductToOrder(@PathVariable String commandeId, @RequestBody Map<String, String> payload) {
+        String productId = payload.get("productId");
+        commandeService.addProductToOrder(commandeId, productId);
+        return ResponseEntity.ok().build();
+    }
+
+    // Remove a product from the order
+    @PostMapping("/remove-product/{commandeId}")
+    public ResponseEntity<Void> removeProductFromOrder(@PathVariable String commandeId, @RequestBody Map<String, String> payload) {
+        String productId = payload.get("productId");
+        commandeService.removeProductFromOrder(commandeId, productId);
+        return ResponseEntity.ok().build();
+    }
+
+    // View products of a specific order
+    @GetMapping("/viewProducts/{commandeId}")
+    public ResponseEntity<List<ProductDTO>> viewOrderProducts(@PathVariable String commandeId) {
+        List<ProductDTO> products = commandeService.getOrderProducts(commandeId);
+        return ResponseEntity.ok(products);
     }
 }

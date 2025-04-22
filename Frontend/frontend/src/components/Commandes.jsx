@@ -9,7 +9,7 @@ function Commandes() {
     const [sortOrder, setSortOrder] = useState("asc"); // Default sort order is ascending
     const fetchCommandes = async () => {
       try {
-          const response = await axios.get(`http://localhost:8066/commande/sort/${sortOrder}?field=${sortField}`);
+          const response = await axios.get(`http://localhost:7000/commande/sort/${sortOrder}?field=${sortField}`);
           setCommandes(response.data);
       } catch (error) {
           console.error("Error fetching commandes:", error);
@@ -42,7 +42,7 @@ const handleSortDesc = () => {
     const handleExportPDF = async () => {
       try {
           // Call the backend to get the PDF file as a Blob
-          const response = await axios.get("http://localhost:8066/commande/export", {
+          const response = await axios.get("http://localhost:7000/commande/export", {
               responseType: "blob", // Make sure Axios knows the response is a Blob
           });
 
@@ -59,7 +59,7 @@ const handleSortDesc = () => {
 const handleExportExcel = async () => {
   try {
     console.log("Attempting to export Excel");
-    const response = await axios.get("http://localhost:8066/commande/excel", {
+    const response = await axios.get("http://localhost:7000/commande/excel", {
       responseType: "blob"
     });
     console.log("Excel export successful", response);
