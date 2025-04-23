@@ -105,8 +105,10 @@ Make sure you have the following installed:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/your-microservice-project.git
-   cd your-microservice-project
+   git clone https://github.com/EyaNehdi/Microservices_SpringBoot.git
+   docker compose build     
+   docker compose up
+
 
 
 ### 🚀 This architecture ensures a secure, scalable, and maintainable microservices-based system!
