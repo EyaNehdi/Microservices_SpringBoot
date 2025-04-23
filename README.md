@@ -88,7 +88,8 @@ When a service wants to communicate with another service, it queries Eureka for 
 - Dynamic dashboards, product views, and event pages
 - Responsive design with modern UI libraries
 
-
+## Architecture 
+<img  src=" ">
 ## 🐳 Installation (Using Docker Compose)
 
 To get the entire microservices architecture up and running locally, follow these steps:
@@ -108,3 +109,6 @@ Make sure you have the following installed:
 
 ### 🚀 This architecture ensures a secure, scalable, and maintainable microservices-based system!
 # Leave a ⭐ if you liked this project !
+
+
+
