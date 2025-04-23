@@ -100,11 +100,11 @@ function ReclamationForm({ refreshReclamations, editingReclamation, setEditingRe
     setIsSubmitting(true)
     try {
       if (editingReclamation) {
-        await axios.put(`http://localhost:8087/reclamation/update/${reclamation.id}`, reclamation)
+        await axios.put(`http://localhost:7000/reclamation/update/${reclamation.id}`, reclamation)
         setEditingReclamation(null)
         showNotification("La réclamation a été modifiée avec succès!")
       } else {
-        await axios.post("http://localhost:8087/reclamation/ajout", reclamation)
+        await axios.post("http://localhost:7000/reclamation/ajout", reclamation)
         showNotification("La réclamation a été ajoutée avec succès!")
       }
       sendEmailNotification()
@@ -193,8 +193,8 @@ function ReclamationForm({ refreshReclamations, editingReclamation, setEditingRe
               Annuler
             </button>
           )}
-          <button type="submit" className="btn" disabled={isSubmitting}>
-            {isSubmitting ? "Enregistrement..." : editingReclamation ? "Mettre à jour" : "Envoyer"}
+          <button type="submit" className="submit-button" disabled={isSubmitting}>
+            {isSubmitting ? "Enregistrement..." : editingReclamation ? "Mettre à jour" : "Ajouter Reclamation"}
           </button>
         </div>
       </form>

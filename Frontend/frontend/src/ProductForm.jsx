@@ -129,7 +129,7 @@ function ProductForm({ refreshProducts, editingProduct, setEditingProduct }) {
       formData.append("image", productData.image)
     }
 
-    const response = await axios.post("http://localhost:8089/produits/add", formData, {
+    const response = await axios.post("http://localhost:7000/produits/add", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -166,7 +166,7 @@ function ProductForm({ refreshProducts, editingProduct, setEditingProduct }) {
       formData.append("image", productData.image)
     }
 
-    const response = await axios.put(`http://localhost:8089/produits/update`, formData, {
+    const response = await axios.put(`http://localhost:7000/produits/update`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -193,7 +193,7 @@ function ProductForm({ refreshProducts, editingProduct, setEditingProduct }) {
 
   const sendEmailNotification = async (to, subject, body) => {
     try {
-      await axios.post(`http://localhost:8089/produits/sendMAIL`, null, {
+      await axios.post(`http://localhost:7000/produits/sendMAIL`, null, {
         params: { to, subject, body },
       })
       console.log("Email notification sent successfully")
@@ -204,7 +204,7 @@ function ProductForm({ refreshProducts, editingProduct, setEditingProduct }) {
 
   const sendSmsNotification = async (to, message) => {
     try {
-      await axios.post(`http://localhost:8089/produits/sendSMS`, null, {
+      await axios.post(`http://localhost:7000/produits/sendSMS`, null, {
         params: { to, message },
       })
       console.log("SMS notification sent successfully")

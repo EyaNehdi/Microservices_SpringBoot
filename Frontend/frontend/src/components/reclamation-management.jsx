@@ -47,7 +47,7 @@ function ReclamationManagement() {
   const fetchReclamations = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:8087/reclamation/get");
+      const response = await axios.get("http://localhost:7000/reclamation/get");
       console.log("API response:", response.data);
       setReclamations(response.data);
     } catch (error) {
@@ -69,7 +69,7 @@ function ReclamationManagement() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8087/reclamation/supp/${id}`);
+      await axios.delete(`http://localhost:7000/reclamation/supp/${id}`);
       refreshReclamations();
       setShowConfirmDelete(false);
       setReclamationToDelete(null);

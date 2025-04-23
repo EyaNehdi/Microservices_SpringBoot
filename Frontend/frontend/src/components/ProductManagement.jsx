@@ -48,11 +48,13 @@ function ProductManagement() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:7000/produits/delete/${id}`);
-      refreshProducts();
-      setShowConfirmDelete(false);
-      setProductToDelete(null);
-      showNotification("Product deleted successfully!");
+
+      await axios.delete(`http://localhost:7000/produits/delete/${id}`)
+      refreshProducts()
+      setShowConfirmDelete(false)
+      setProductToDelete(null)
+      showNotification("Product deleted successfully!")
+
     } catch (error) {
       console.error("Error deleting product:", error);
       alert("Failed to delete product. Please try again.");

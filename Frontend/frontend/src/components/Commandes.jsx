@@ -33,6 +33,7 @@ function Commandes() {
     setSortOrder("desc");
   };
 
+
   const handleDelete = async (id) => {
     try {
       await deleteCommande(id);
@@ -51,7 +52,6 @@ function Commandes() {
           responseType: "blob",
         }
       );
-
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(response.data);
       link.download = "commandes_list.pdf";
@@ -82,6 +82,7 @@ function Commandes() {
       }
     }
   };
+
   const handleAddProducts = (orderId) => {
     navigate(`/products?commandeId=${orderId}`);
   };
@@ -93,6 +94,7 @@ function Commandes() {
   const handleUpdateCommande = (id) => {
     navigate(`/update-commande/${id}`);
   };
+
 
   return (
     <div style={{ padding: "20px" }}>

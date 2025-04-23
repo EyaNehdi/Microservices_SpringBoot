@@ -17,7 +17,7 @@ function ReclamationStatistics() {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get("http://localhost:8087/reclamation/get");
+      const response = await axios.get("http://localhost:7000/reclamation/get");
       setReclamations(response.data);
     } catch (error) {
       console.error("Error fetching reclamations:", error);

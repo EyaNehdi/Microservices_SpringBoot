@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = "http://localhost:8089/produits"; 
-const Reclamation_BASE_URL = "http://localhost:8087/reclamation"; 
-const API_EVENT_URL = "http://localhost:8088/event";// Your Spring Boot backend
+const API_BASE_URL = "http://localhost:7000/produits"; 
+const Reclamation_BASE_URL = "http://localhost:7000/reclamation"; 
+const API_EVENT_URL = "http://localhost:7000/event";// Your Spring Boot backend
 // Your Spring Boot backend
 
 export const getAllProducts = async () => {
@@ -100,7 +100,7 @@ export const exportPDF = async (events) => {
 
 export const triggerReminderNotifications = async () => {
     try {
-        const response = await axios.get("http://localhost:8088/event/trigger-reminders");
+        const response = await axios.get("http://localhost:7000/event/trigger-reminders");
         return response.data;
     } catch (error) {
         console.error("Erreur lors du déclenchement des notifications :", error);
