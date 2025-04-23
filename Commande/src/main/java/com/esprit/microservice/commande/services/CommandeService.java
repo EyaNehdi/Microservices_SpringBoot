@@ -15,6 +15,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -166,5 +167,16 @@ public class CommandeService implements ICommandeService{
         }
 
         return products;
+    }
+
+    @RabbitListener(queues = "delivery.completed.queue")
+    public void handleDeliveryCompletedEvent(String commandeId) {
+        Commande commande = commandeRepository.findById(commandeId).orElse(null);
+        if (commande != null) {
+            commande.setNomCommande(commande.getNomCommande() + " (Delivered)");
+            commandeRepository.save(commande);
+        } else {
+            System.out.println("Commande not found with ID: " + commandeId);
+        }
     }
 }

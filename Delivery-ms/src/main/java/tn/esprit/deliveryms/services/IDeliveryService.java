@@ -16,4 +16,6 @@ public interface IDeliveryService {
     Delivery updateDelivery(Long id, Delivery deliveryDetails);
 
     void deleteDelivery(Long id);
+
+    void markAsDelivered(Long deliveryId);
 }

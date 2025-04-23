@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import DeliveryModal from "./DeliveryDetails/DeliveryModal";
-import { FileDown } from "lucide-react";
+import { FileCheck, FileDown } from "lucide-react";
 
 const BASE_URL = "http://localhost:7000/deliveries";
 
@@ -88,10 +88,22 @@ const DeliveriesList = () => {
       });
   };
 
+  const handleMarkDelivered = async (id) => {
+    try {
+      await fetch(`http://localhost:7000/deliveries/markDelivered/${id}`, {
+        method: "PUT",
+      });
+      alert("Marked as delivered!");
+      // Optional: refresh the list
+    } catch (err) {
+      console.error("Error marking delivery:", err);
+    }
+  };
+
   return (
     <>
       <div className="app-container">
-        <div >
+        <div>
           <h1>Gestion des Réclamations</h1>
           <div />
           <div />
@@ -252,6 +264,30 @@ const DeliveriesList = () => {
                       >
                         <FileDown style={{ fontSize: "16px" }} />
                         Download PDF
+                      </button>
+                      <button
+                        onClick={() => handleMarkDelivered(delivery.id)}
+                        style={{
+                          padding: "6px 12px",
+                          border: "1px solid #bbf7d0",
+                          backgroundColor: "#dcfce7",
+                          color: "#15803d",
+                          borderRadius: "6px",
+                          cursor: "pointer",
+                          fontWeight: "500",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
+                        }}
+                        onMouseOver={(e) =>
+                          (e.target.style.backgroundColor = "#bbf7d0")
+                        }
+                        onMouseOut={(e) =>
+                          (e.target.style.backgroundColor = "#dcfce7")
+                        }
+                      >
+                        <FileCheck size={16} />
+                        Complete
                       </button>
                     </div>
                   </td>

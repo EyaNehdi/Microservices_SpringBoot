@@ -33,7 +33,6 @@ function Commandes() {
     setSortOrder("desc");
   };
 
-
   const handleDelete = async (id) => {
     try {
       await deleteCommande(id);
@@ -94,7 +93,6 @@ function Commandes() {
   const handleUpdateCommande = (id) => {
     navigate(`/update-commande/${id}`);
   };
-
 
   return (
     <div style={{ padding: "20px" }}>
@@ -285,10 +283,14 @@ function Commandes() {
                         alignItems: "center",
                         gap: "4px",
                         padding: "4px",
-                        color: "#3b82f6", // blue-500
+                        color: commande?.nomCommande?.endsWith("(Delivered)")
+                          ? "#9ca3af"
+                          : "#3b82f6",
                         backgroundColor: "transparent",
                         borderRadius: "6px",
-                        cursor: "pointer",
+                        cursor: commande?.nomCommande?.endsWith("(Delivered)")
+                          ? "not-allowed"
+                          : "pointer",
                         transition: "background-color 0.2s",
                       }}
                       onMouseOver={(e) =>
@@ -298,6 +300,7 @@ function Commandes() {
                         (e.target.style.backgroundColor = "transparent")
                       }
                       title="Add Product"
+                      disabled={commande?.nomCommande?.endsWith("(Delivered)")}
                     >
                       <Plus size={18} />
                       <span>Add Products</span>
@@ -311,13 +314,15 @@ function Commandes() {
                         gap: "4px",
                         padding: "4px",
                         color:
-                          commande.productIds.length === 0
+                          commande.productIds.length === 0 ||
+                          commande?.nomCommande?.endsWith("(Delivered)")
                             ? "#9ca3af"
                             : "#10b981",
                         backgroundColor: "transparent",
                         borderRadius: "6px",
                         cursor:
-                          commande.productIds.length === 0
+                          commande.productIds.length === 0 ||
+                          commande?.nomCommande?.endsWith("(Delivered)")
                             ? "not-allowed"
                             : "pointer",
                         transition: "background-color 0.2s",
@@ -329,7 +334,10 @@ function Commandes() {
                       onMouseOut={(e) =>
                         (e.target.style.backgroundColor = "transparent")
                       }
-                      disabled={commande.productIds.length === 0}
+                      disabled={
+                        commande.productIds.length === 0 ||
+                        commande?.nomCommande?.endsWith("(Delivered)")
+                      }
                       title="Confirm Order"
                     >
                       <CheckCircle size={18} />
@@ -343,10 +351,14 @@ function Commandes() {
                         alignItems: "center",
                         gap: "4px",
                         padding: "4px",
-                        color: "#10b981", // green-500
+                        color: commande?.nomCommande?.endsWith("(Delivered)")
+                          ? "#9ca3af"
+                          : "#10b981",
                         backgroundColor: "transparent",
                         borderRadius: "6px",
-                        cursor: "pointer",
+                        cursor: commande?.nomCommande?.endsWith("(Delivered)")
+                          ? "not-allowed"
+                          : "pointer",
                         transition: "background-color 0.2s",
                       }}
                       onMouseOver={(e) =>
@@ -356,6 +368,7 @@ function Commandes() {
                         (e.target.style.backgroundColor = "transparent")
                       }
                       title="update"
+                      disabled={commande?.nomCommande?.endsWith("(Delivered)")}
                     >
                       <Edit size={18} />
                     </button>

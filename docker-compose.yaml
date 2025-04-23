@@ -57,6 +57,7 @@ services:
     depends_on:
       - eurekaServer
       - mongodb
+      - rabbitmq
 
   mongodb:
     image: mongo
@@ -100,6 +101,7 @@ services:
     depends_on:
       - postgres
       - eurekaServer
+      - rabbitmq
 
   keycloak:
     image: quay.io/keycloak/keycloak:23.0
@@ -124,6 +126,12 @@ services:
       - '5000:5000'
     environment:
       MONGO_URI: "mongodb+srv://eyanehdi:Trelix123@trelix.1akuy.mongodb.net/Trelix?retryWrites=true&w=majority"
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"   
+      - "15672:15672" 
 
 
 volumes:

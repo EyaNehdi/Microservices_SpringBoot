@@ -1,9 +1,11 @@
 package tn.esprit.deliveryms.services;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.deliveryms.entities.CommandeDTO;
 import tn.esprit.deliveryms.entities.Delivery;
+import tn.esprit.deliveryms.entities.DeliveryStatus;
 import tn.esprit.deliveryms.entities.ProductDTO;
 import tn.esprit.deliveryms.repositories.DeliveryRepository;
 
@@ -15,6 +17,9 @@ public class DeliveryServiceImpl implements IDeliveryService {
     private DeliveryRepository deliveryRepository;
     @Autowired
     private CommandeClient commandeClient;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     public Delivery createDelivery(Delivery delivery, String id) {
@@ -93,6 +98,18 @@ public class DeliveryServiceImpl implements IDeliveryService {
     @Override
     public void deleteDelivery(Long id) {
         deliveryRepository.deleteById(id);
+    }
+
+    @Override
+    public void markAsDelivered(Long deliveryId) {
+        Delivery delivery = deliveryRepository.findById(deliveryId).orElse(null);
+        if (delivery != null) {
+            delivery.setStatus(DeliveryStatus.DELIVERED);
+
+            rabbitTemplate.convertAndSend("delivery.completed.queue", delivery.getCommandeId());
+
+            deliveryRepository.save(delivery);
+        }
     }
 
 }

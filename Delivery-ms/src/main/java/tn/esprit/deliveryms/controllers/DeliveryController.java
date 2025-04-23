@@ -79,4 +79,16 @@ public class DeliveryController {
 
         return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
     }
+
+    @PutMapping("/markDelivered/{deliveryId}")
+    public ResponseEntity<String> completeDelivery(@PathVariable Long deliveryId) {
+        try {
+            deliveryService.markAsDelivered(deliveryId);
+
+            return ResponseEntity.ok("Delivery marked as completed");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to complete the delivery: " + e.getMessage());
+        }
+    }
 }
