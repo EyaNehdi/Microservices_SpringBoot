@@ -29,7 +29,7 @@ When a service wants to communicate with another service, it queries Eureka for 
 
 ---
 
-### 3️⃣ Microservices (Order, Product, Event, Review)
+### 3️⃣ Microservices (Order, Product, Event, Review,Delivery)
 
 - Expose different REST APIs for each microservice.
 - Use different databases for persistence (MongoDB, PostgreSQL, MySQL, H2).
@@ -88,6 +88,22 @@ When a service wants to communicate with another service, it queries Eureka for 
 - Dynamic dashboards, product views, and event pages
 - Responsive design with modern UI libraries
 
+
+## 🐳 Installation (Using Docker Compose)
+
+To get the entire microservices architecture up and running locally, follow these steps:
+
+### ⚙️ Prerequisites
+Make sure you have the following installed:
+- [Docker](https://www.docker.com/products/docker-desktop)
+- [Docker Compose](https://docs.docker.com/compose/)
+
+### 🚀 Quick Start
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/your-microservice-project.git
+   cd your-microservice-project
 
 
 ### 🚀 This architecture ensures a secure, scalable, and maintainable microservices-based system!
