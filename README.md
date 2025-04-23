@@ -89,7 +89,9 @@ When a service wants to communicate with another service, it queries Eureka for 
 - Responsive design with modern UI libraries
 
 ## Architecture 
+<p align="center">
 <img  src="https://raw.githubusercontent.com/EyaNehdi/Microservices_SpringBoot/refs/heads/intergration/image.png">
+</p>
 ## 🐳 Installation (Using Docker Compose)
 
 To get the entire microservices architecture up and running locally, follow these steps:
