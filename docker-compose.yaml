@@ -35,11 +35,21 @@ services:
     depends_on:
       - eurekaServer
       - docker-mysql_1
+    
 
   Gestionproduit:
     image: jyhedhr/gestion_projet_image:latest
     ports:
       - "8089:8089"
+    environment:
+      - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
+    depends_on:
+      - eurekaServer
+
+  MS_configuration:
+    image: jyhedhr/ms_configuration:latest
+    ports:
+      - "8888:8888"
     environment:
       - eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
     depends_on:

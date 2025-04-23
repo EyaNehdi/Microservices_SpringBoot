@@ -15,13 +15,13 @@ spring.datasource.driver-class-name=org.h2.Driver
 spring.jpa.hibernate.ddl-auto=create
 
 # Eureka Configuration
-eureka.client.service-url.defaultZone=http://eurekaServer:8030/eureka/
+eureka.client.service-url.defaultZone=http://eurekaServer:8761/eureka/
 eureka.client.register-with-eureka=true
 
 spring.mail.host=smtp.gmail.com
 spring.mail.port=587
 spring.mail.username=jihedhorchani@gmail.com
-spring.mail.password=jfes uekb sgba iegh
+spring.mail.password=jfes uekb sgba iegh    
 spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
 
@@ -30,7 +30,8 @@ twilio.auth.token=b8a360f889c72291621a769b5ce86ab9
 twilio.phone.number=+19035467653
 
 
-welcome.message=Hello from Gestion Produit Service
+
 spring.cloud.config.enabled=true
 spring.cloud.config.uri=http://localhost:8888
 spring.config.import=optional:configserver:http://localhost:8888/
+welcome.message=Hello from Gestion Produit Service

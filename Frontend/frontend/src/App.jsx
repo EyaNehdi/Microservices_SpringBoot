@@ -5,7 +5,7 @@ import ProductManagement from "./components/ProductManagement";
 import NotFound from "./components/NotFound";
 import ReclamationManagement from "./components/reclamation-management";
 import ReclamationStatistics from "./components/ReclamationStatistics";
-
+import ProtectedRoute from "./components/ProtectedRoute";
 import Commandes from "./components/Commandes";
 import CommandeForm from "./components/CommandeForm";
 
@@ -26,6 +26,15 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Register />} />
+            
+            <Route path="*" element={<NotFound />} />
+
+
+
+
+            <Route element={<ProtectedRoute />}>
+         
+           
             <Route path="/products" element={<ProductManagement />} />
             <Route path="/reclamation" element={<ReclamationManagement />} />
             <Route path="/statistics" element={<ReclamationStatistics />} />
@@ -39,7 +48,11 @@ function App() {
             <Route path="/stat" element={<Stat />} />
             <Route path="/delivery/:commandeId" element={<DeliveryManager />} />
             <Route path="/deliveries" element={<DeliveriesList />} />
-            <Route path="*" element={<NotFound />} />
+
+         
+          
+         
+        </Route>
           </Routes>
         </main>
       </div>
