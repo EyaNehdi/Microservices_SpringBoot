@@ -102,15 +102,10 @@ Make sure you have the following installed:
 - [Docker Compose](https://docs.docker.com/compose/)
 
 ### 🚀 Quick Start
-
-1. **Clone the repository**
    ```bash
    git clone https://github.com/EyaNehdi/Microservices_SpringBoot.git
    docker compose build     
    docker compose up
-
-
-
 ### 🚀 This architecture ensures a secure, scalable, and maintainable microservices-based system!
 # Leave a ⭐ if you liked this project !
 
