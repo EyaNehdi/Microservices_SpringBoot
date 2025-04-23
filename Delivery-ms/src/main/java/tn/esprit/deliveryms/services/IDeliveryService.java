@@ -9,9 +9,9 @@ public interface IDeliveryService {
 
     Delivery createDelivery(Delivery delivery, String id);
 
-    List<Delivery> getAllDeliveries();
+    Delivery getDeliveryWithCommande(Long deliveryId);
 
-//    Optional<Delivery> getDeliveryByCommandeId(Long commandeId);
+    List<Delivery> getAllDeliveries();
 
     Delivery updateDelivery(Long id, Delivery deliveryDetails);
 

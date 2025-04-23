@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const BASE_URL = "http://localhost:7000/deliveries";
 
 const initialDelivery = {
-  commandeId: "",
-  address: "",
   deliveryDate: "",
   status: "PENDING",
   carrier: "",
@@ -14,24 +13,17 @@ const initialDelivery = {
 };
 
 const DeliveryManager = () => {
-  const [form, setForm] = useState(initialDelivery);
-  const [deliveries, setDeliveries] = useState([]);
-  const [editingId, setEditingId] = useState(null);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
-  const [filterText, setFilterText] = useState("");
-  axios.defaults.withCredentials = true;
-  useEffect(() => {
-    fetchAllDeliveries();
-  }, []);
+  const { commandeId } = useParams();
+  const location = useLocation();
+  const delivery = location.state?.delivery;
+  const [form, setForm] = useState(
+    delivery ? { ...delivery } : initialDelivery
+  );
+  const [editingId, setEditingId] = useState(delivery ? true : false);
+  const navigate = useNavigate();
+  console.log(delivery);
 
-  const fetchAllDeliveries = async () => {
-    try {
-      const res = await axios.get(`${BASE_URL}/getAll`);
-      setDeliveries(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  axios.defaults.withCredentials = true;
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -41,189 +33,174 @@ const DeliveryManager = () => {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`${BASE_URL}/getById/${editingId}`, form);
+        await axios.put(`${BASE_URL}/getById/${form.id}`, form);
         setEditingId(null);
       } else {
-        const relatedId = '6807efdfcfba5c23d28f6f9a';
-        await axios.post(`${BASE_URL}/create/${relatedId}`, form);
+        await axios.post(`${BASE_URL}/create/${commandeId}`, form);
       }
       setForm(initialDelivery);
-      fetchAllDeliveries();
     } catch (err) {
       console.error(err);
+    } finally {
+      navigate("/deliveries");
     }
   };
-
-  const handleEdit = (delivery) => {
-    setForm(delivery);
-    setEditingId(delivery.id);
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${BASE_URL}/delete/${id}`);
-      fetchAllDeliveries();
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleSort = (key) => {
-    let direction = "asc";
-    if (sortConfig.key === key && sortConfig.direction === "asc") {
-      direction = "desc";
-    }
-    setSortConfig({ key, direction });
-  };
-
-  const sortedFilteredDeliveries = [...deliveries]
-    .filter((delivery) =>
-      Object.values(delivery)
-        .join(" ")
-        .toLowerCase()
-        .includes(filterText.toLowerCase())
-    )
-    .sort((a, b) => {
-      if (!sortConfig.key) return 0;
-      const aValue = a[sortConfig.key];
-      const bValue = b[sortConfig.key];
-
-      if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
-      if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
-      return 0;
-    });
-
+  const isFormValid =
+    form.deliveryDate &&
+    form.status &&
+    form.carrier &&
+    form.trackingNumber;
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
       <h2>Delivery Manager</h2>
 
-      <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
-        <input
-          name="commandeId"
-          placeholder="Commande ID"
-          value={form.commandeId}
-          onChange={handleChange}
-        />
-        <input
-          name="address"
-          placeholder="Address"
-          value={form.address}
-          onChange={handleChange}
-        />
-        <input
-          name="deliveryDate"
-          type="datetime-local"
-          value={form.deliveryDate}
-          onChange={handleChange}
-        />
-        <select name="status" value={form.status} onChange={handleChange}>
-          <option value="PENDING">PENDING</option>
-          <option value="SHIPPED">SHIPPED</option>
-          <option value="DELIVERED">DELIVERED</option>
-          <option value="IN_TRANSIT">IN_TRANSIT</option>
-          <option value="CANCELLED">CANCELLED</option>
-        </select>
-        <input
-          name="carrier"
-          placeholder="Carrier"
-          value={form.carrier}
-          onChange={handleChange}
-        />
-        <input
-          name="trackingNumber"
-          placeholder="Tracking #"
-          value={form.trackingNumber}
-          onChange={handleChange}
-        />
-        <input
-          name="notes"
-          placeholder="Notes"
-          value={form.notes}
-          onChange={handleChange}
-        />
-        <button type="submit">{editingId ? "Update" : "Create"}</button>
-        {editingId && (
-          <button
-            onClick={() => {
-              setForm(initialDelivery);
-              setEditingId(null);
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          marginBottom: "20px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+          maxWidth: "500px",
+          marginInline: "auto",
+          padding: "24px",
+          border: "1px solid #ccc",
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+          backgroundColor: "#f9f9f9",
+        }}
+      >
+
+        <label
+          style={{ display: "flex", flexDirection: "column", fontWeight: 500 }}
+        >
+          Delivery Date
+          <input
+            name="deliveryDate"
+            type="datetime-local"
+            value={form.deliveryDate}
+            onChange={handleChange}
+            style={{
+              padding: "8px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+            }}
+          />
+        </label>
+
+        <label
+          style={{ display: "flex", flexDirection: "column", fontWeight: 500 }}
+        >
+          Status
+          <select
+            name="status"
+            value={form.status}
+            onChange={handleChange}
+            style={{
+              padding: "8px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
             }}
           >
-            Cancel
+            <option value="PENDING">PENDING</option>
+            <option value="SHIPPED">SHIPPED</option>
+            <option value="DELIVERED">DELIVERED</option>
+            <option value="IN_TRANSIT">IN_TRANSIT</option>
+            <option value="CANCELLED">CANCELLED</option>
+          </select>
+        </label>
+
+        <label
+          style={{ display: "flex", flexDirection: "column", fontWeight: 500 }}
+        >
+          Carrier
+          <input
+            name="carrier"
+            placeholder="Carrier (e.g., DHL, UPS)"
+            value={form.carrier}
+            onChange={handleChange}
+            style={{
+              padding: "8px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+            }}
+          />
+        </label>
+
+        <label
+          style={{ display: "flex", flexDirection: "column", fontWeight: 500 }}
+        >
+          Tracking Number
+          <input
+            name="trackingNumber"
+            placeholder="Tracking #"
+            value={form.trackingNumber}
+            onChange={handleChange}
+            style={{
+              padding: "8px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+            }}
+          />
+        </label>
+
+        <label
+          style={{ display: "flex", flexDirection: "column", fontWeight: 500 }}
+        >
+          Notes
+          <input
+            name="notes"
+            placeholder="Additional notes"
+            value={form.notes}
+            onChange={handleChange}
+            style={{
+              padding: "8px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+            }}
+          />
+        </label>
+
+        <div
+          style={{ display: "flex", gap: "12px", justifyContent: "flex-end" }}
+        >
+          <button
+            disabled={!isFormValid}
+            type="submit"
+            style={{
+              padding: "10px 16px",
+              backgroundColor: isFormValid ? "#4CAF50" : "#a5d6a7",
+              color: "white",
+              border: "none",
+              borderRadius: "6px",
+              cursor: isFormValid ? "pointer" : "not-allowed",
+            }}
+          >
+            {editingId ? "Update" : "Create"}
           </button>
-        )}
+
+          {editingId && (
+            <button
+              type="button"
+              onClick={() => {
+                navigate("/deliveries");
+              }}
+              style={{
+                padding: "10px 16px",
+                backgroundColor: "#ccc",
+                color: "#333",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+              }}
+            >
+              Cancel
+            </button>
+          )}
+        </div>
       </form>
-
-      <h3>All Deliveries</h3>
-
-      <input
-        type="text"
-        placeholder="Search deliveries..."
-        value={filterText}
-        onChange={(e) => setFilterText(e.target.value)}
-        style={{ marginBottom: "10px", padding: "5px" }}
-      />
-
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            {["id", "commandeId", "address", "status", "carrier"].map((key) => (
-              <th
-                key={key}
-                onClick={() => handleSort(key)}
-                style={{
-                  border: "1px solid #ccc",
-                  padding: "8px",
-                  cursor: "pointer",
-                  background: sortConfig.key === key ? "#f0f0f0" : "#fafafa",
-                }}
-              >
-                {key.toUpperCase()}
-                {sortConfig.key === key &&
-                  (sortConfig.direction === "asc" ? " ↑" : " ↓")}
-              </th>
-            ))}
-            <th style={{ border: "1px solid #ccc", padding: "8px" }}>
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedFilteredDeliveries.map((delivery) => (
-            <tr key={delivery.id}>
-              <td style={tdStyle}>{delivery.id}</td>
-              <td style={tdStyle}>{delivery.commandeId}</td>
-              <td style={tdStyle}>{delivery.address}</td>
-              <td style={tdStyle}>{delivery.status}</td>
-              <td style={tdStyle}>{delivery.carrier}</td>
-              <td style={tdStyle}>
-                <button onClick={() => handleEdit(delivery)} style={btnStyle}>
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(delivery.id)}
-                  style={btnStyle}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 };
-
-const tdStyle = {
-    border: "1px solid #ccc",
-    padding: "8px",
-  };
-  
-  const btnStyle = {
-    marginRight: "6px",
-    padding: "4px 8px",
-    cursor: "pointer",
-  };
 
 export default DeliveryManager;

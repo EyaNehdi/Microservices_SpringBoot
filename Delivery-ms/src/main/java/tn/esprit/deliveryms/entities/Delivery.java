@@ -17,10 +17,10 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String commandeId;
+
     @Transient
     private CommandeDTO commande;
-
-    private String address;
 
     private LocalDateTime deliveryDate;
 
