@@ -6,7 +6,6 @@ eureka.client.service-url.defaultZone=http://eurekaserver:8761/eureka/
 eureka.client.register-with-eureka=true
 eureka.client.fetch-registry=true
 eureka.server.wait-time-in-ms-when-sync-empty=5
-
 spring.profiles.active=native
 #spring.cloud.config.server.native.searchLocations=file://${user.home}
 spring.cloud.config.server.native.searchLocations=./src/main/resources/
