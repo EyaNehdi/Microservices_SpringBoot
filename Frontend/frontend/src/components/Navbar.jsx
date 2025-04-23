@@ -35,6 +35,10 @@ function Navbar() {
         <li className="nav-item">
           <NavLink to="/commandeForm" className="nav-link">AddOrders</NavLink>
         </li>
+
+        <li className="nav-item">
+          <NavLink to="/deliveries" className="nav-link">Deliveries</NavLink>
+        </li>
       
         <li className="nav-item">
           <NavLink to="/stat" className="nav-link">Events</NavLink>

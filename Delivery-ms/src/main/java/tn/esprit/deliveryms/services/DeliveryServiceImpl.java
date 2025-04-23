@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.deliveryms.entities.CommandeDTO;
 import tn.esprit.deliveryms.entities.Delivery;
+import tn.esprit.deliveryms.entities.ProductDTO;
 import tn.esprit.deliveryms.repositories.DeliveryRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class DeliveryServiceImpl implements IDeliveryService{
+public class DeliveryServiceImpl implements IDeliveryService {
     @Autowired
     private DeliveryRepository deliveryRepository;
     @Autowired
@@ -22,19 +22,59 @@ public class DeliveryServiceImpl implements IDeliveryService{
         if (commande == null) {
             throw new RuntimeException("Commande not found");
         }
+        delivery.setCommandeId(id);
         delivery.setCommande(commande);
         return deliveryRepository.save(delivery);
     }
 
     @Override
-    public List<Delivery> getAllDeliveries() {
-        return deliveryRepository.findAll();
+    public Delivery getDeliveryWithCommande(Long deliveryId) {
+        Delivery delivery = deliveryRepository.findById(deliveryId)
+                .orElseThrow(() -> new RuntimeException("Delivery not found"));
+
+        if (delivery.getCommandeId() != null) {
+            CommandeDTO commande = commandeClient.getCommandeById(delivery.getCommandeId());
+
+            List<ProductDTO> produits = commandeClient.getOrderProducts(delivery.getCommandeId());
+            CommandeDTO commandeDTO = new CommandeDTO(
+                    commande.get_id(),
+                    commande.getNomCommande(),
+                    commande.getDeliveryAddress(),
+                    commande.getTotalPrice(),
+                    produits
+            );
+            delivery.setCommande(commandeDTO);
+        }
+
+        // Return the Delivery with the populated CommandeDTO
+        return delivery;
     }
 
-//    @Override
-//    public Optional<Delivery> getDeliveryByCommandeId(Long commandeId) {
-//        return Optional.ofNullable(deliveryRepository.findByCommandeId(commandeId));
-//    }
+
+    @Override
+    public List<Delivery> getAllDeliveries() {
+        List<Delivery> deliveries = deliveryRepository.findAll();
+        for (Delivery delivery : deliveries) {
+            if (delivery.getCommandeId() != null) {
+                try {
+                    CommandeDTO commande = commandeClient.getCommandeById(delivery.getCommandeId());
+
+                    CommandeDTO commandeDTO = new CommandeDTO(
+                            commande.get_id(),
+                            commande.getNomCommande(),
+                            commande.getDeliveryAddress(),
+                            commande.getTotalPrice(),
+                            null
+                    );
+                    delivery.setCommande(commandeDTO);
+                } catch (Exception e) {
+                    delivery.setCommande(null);
+                }
+            }
+        }
+        return deliveries;
+    }
+
 
     @Override
     public Delivery updateDelivery(Long id, Delivery deliveryDetails) {
@@ -54,4 +94,5 @@ public class DeliveryServiceImpl implements IDeliveryService{
     public void deleteDelivery(Long id) {
         deliveryRepository.deleteById(id);
     }
+
 }
